@@ -8,6 +8,8 @@ import java.util.Map;
 
 public interface IService {
 
-    void login(Map<String,String> loginMap);
+    void login(Map<String,String> loginMap, IServiceResultListener<String> result);
+
+    void subscribe(Map<String,String> subscribeMap, IServiceResultListener<String> result);
 
 }

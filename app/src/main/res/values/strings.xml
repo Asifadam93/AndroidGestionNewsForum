@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GestionNewsForum</string>
+    <string name="login_incorrect_details">Identifiant et/ou mot de passe incorrect</string>
+    <string name="login_missing_fields">Identifiant ou mot de passe manquant</string>
+    <string name="login_connexion_error">Erreur : Connexion</string>
+    <string name="inscription">Inscription ok</string>
+    <string name="error_subscribe">Erreur : Inscription</string>
 </resources>

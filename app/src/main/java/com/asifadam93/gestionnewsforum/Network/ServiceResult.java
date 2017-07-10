@@ -9,6 +9,13 @@ public class ServiceResult<T> {
     private T data;
     private String errorMsg;
 
+    public ServiceResult() {
+    }
+
+    public ServiceResult(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
     public T getData() {
         return data;
     }
