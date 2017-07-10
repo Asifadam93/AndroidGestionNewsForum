@@ -1,7 +1,9 @@
-package com.asifadam93.gestionnewsforum;
+package com.asifadam93.gestionnewsforum.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.asifadam93.gestionnewsforum.R;
 
 public class MainActivity extends Activity {
 
