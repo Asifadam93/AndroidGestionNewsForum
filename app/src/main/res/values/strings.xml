@@ -5,4 +5,12 @@
     <string name="login_connexion_error">Erreur : Connexion</string>
     <string name="inscription">Inscription ok</string>
     <string name="error_subscribe">Erreur : Inscription</string>
+    <string name="get_user_error">Erreur : Récupération données utilisateur</string>
+    <string name="user_updated">Utilisateur a été bien actualisé</string>
+    <string name="error_update_user">Erreur : mise à jour utilisateur</string>
+    <string name="login_title">Android news</string>
+    <string name="password">Mot de passe</string>
+    <string name="e_mail">E-mail</string>
+    <string name="connexion">Connexion</string>
+    <string name="login_subscribe">Pas de compte, inscrivez-vous</string>
 </resources>

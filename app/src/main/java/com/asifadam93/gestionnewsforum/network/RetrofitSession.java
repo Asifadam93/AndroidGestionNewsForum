@@ -1,4 +1,4 @@
-package com.asifadam93.gestionnewsforum.Network;
+package com.asifadam93.gestionnewsforum.network;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

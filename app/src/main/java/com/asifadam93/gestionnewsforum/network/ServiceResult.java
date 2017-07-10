@@ -1,4 +1,4 @@
-package com.asifadam93.gestionnewsforum.Network;
+package com.asifadam93.gestionnewsforum.network;
 
 /**
  * Created by Asifadam93 on 10/07/2017.

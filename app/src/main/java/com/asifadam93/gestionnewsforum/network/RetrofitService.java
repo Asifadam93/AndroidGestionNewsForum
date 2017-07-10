@@ -1,8 +1,9 @@
-package com.asifadam93.gestionnewsforum.Network;
+package com.asifadam93.gestionnewsforum.network;
 
 import android.content.Context;
 
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.model.User;
 
 import java.util.Map;
 
@@ -78,6 +79,68 @@ public class RetrofitService implements IService {
                     result.setData(context.getString(R.string.inscription));
                 } else {
                     result.setErrorMsg(context.getString(R.string.error_subscribe));
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(result);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void getUser(String token, final IServiceResultListener<User> resultListener) {
+
+        getRetrofitService().getUser(token).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                ServiceResult<User> result = new ServiceResult<User>();
+
+                if (response.isSuccessful()) {
+                    result.setData(response.body());
+                } else {
+                    result.setErrorMsg(context.getString(R.string.get_user_error));
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(result);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<User>(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void updateUser(String token, Map<String, String> updateMap, final IServiceResultListener<String> resultListener) {
+
+        getRetrofitService().updateUser(token, updateMap).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                ServiceResult<String> result = new ServiceResult<String>();
+
+                if (response.isSuccessful()) {
+                    result.setData(context.getString(R.string.user_updated));
+                } else {
+                    result.setErrorMsg(context.getString(R.string.error_update_user));
                 }
 
                 if (resultListener != null) {
