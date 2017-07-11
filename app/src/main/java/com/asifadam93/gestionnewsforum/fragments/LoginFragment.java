@@ -2,7 +2,7 @@ package com.asifadam93.gestionnewsforum.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.asifadam93.gestionnewsforum.Const;
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.network.IServiceResultListener;
+import com.asifadam93.gestionnewsforum.network.RetrofitService;
+import com.asifadam93.gestionnewsforum.network.ServiceResult;
 
 import java.util.HashMap;
 
@@ -27,18 +31,18 @@ public class LoginFragment extends Fragment {
     private EditText editTextEmail, editTextPassword;
     private Button buttonLogin;
     private TextView textViewRegister;
-    private View view;/*
-    private RetrofitUserService retrofitUserService;
-    private RegisterFragment registerFragment;*/
+    private View view;
+    private RetrofitService retrofitService;
+    private RegisterFragment registerFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.login_layout, container, false);
 
-        //initViews();
+        initViews();
 
-        /*buttonLogin.setOnClickListener(new View.OnClickListener() {
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 userVerification();
@@ -50,12 +54,12 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 fragmentManager.beginTransaction().replace(R.id.frameContainer, getRegisterFragment(), "RegisterFragment").commit();
             }
-        });*/
+        });
 
         return view;
     }
 
-   /* private void initViews() {
+    private void initViews() {
         fragmentManager = getActivity().getFragmentManager();
         editTextEmail = (EditText) view.findViewById(R.id.login_email);
         editTextPassword = (EditText) view.findViewById(R.id.login_mdp);
@@ -69,48 +73,48 @@ public class LoginFragment extends Fragment {
         String password = editTextPassword.getText().toString();
 
         if (email.isEmpty()) {
-            editTextEmail.setError(getString(R.string.champ_vide));
+            editTextEmail.setError(getString(R.string.empty_field));
             return;
         }
 
         if (password.isEmpty()) {
-            editTextPassword.setError(getString(R.string.champ_vide));
+            editTextPassword.setError(getString(R.string.empty_field));
             return;
         }
 
         HashMap<String, String> userMap = new HashMap<>();
-        userMap.put("login", email);
+        userMap.put("email", email);
         userMap.put("password", password);
 
-        getRetrofitUserService().login(userMap, new IServiceResultListener<TokenResponse>() {
+        getRetrofitService().login(userMap, new IServiceResultListener<String>() {
             @Override
-            public void onResult(ServiceResult<TokenResponse> result) {
+            public void onResult(ServiceResult<String> result) {
 
-                Log.i("RetrofitUserService", "onResult");
+                String token = result.getData();
 
-                TokenResponse tokenResponse = result.getData();
-
-                if (tokenResponse != null) {
-                    Toast.makeText(getActivity(), getActivity().getString(R.string.conn_ok), Toast.LENGTH_SHORT).show();
-
-                    // start userActivity with tokenData
-                    Intent intent = new Intent(getActivity(), UserActivity.class);
-                    intent.putExtra("UserInfo", tokenResponse);
-                    startActivity(intent);
-
+                if (token != null) {
+                    saveToken(token);
+                    Log.i("LoginFragment", "Token saved");
                 } else {
-                    // error
-                    Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    Log.i("LoginFragment", result.getErrorMsg());
                 }
             }
         });
     }
 
-    private RetrofitUserService getRetrofitUserService() {
-        if (retrofitUserService == null) {
-            retrofitUserService = new RetrofitUserService();
+    private void saveToken(String token){
+        SharedPreferences pref = getActivity().getSharedPreferences(Const.sharedPrefName, 0); // 0 - for private mode
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(Const.token, "Bearer "+token); // Storing string
+        editor.apply(); // commit changes
+    }
+
+    private RetrofitService getRetrofitService() {
+        if (retrofitService == null) {
+            retrofitService = new RetrofitService(getActivity());
         }
-        return retrofitUserService;
+        return retrofitService;
     }
 
     private RegisterFragment getRegisterFragment() {
@@ -118,5 +122,5 @@ public class LoginFragment extends Fragment {
             registerFragment = new RegisterFragment();
         }
         return registerFragment;
-    }*/
+    }
 }

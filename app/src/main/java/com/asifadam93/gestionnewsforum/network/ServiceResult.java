@@ -10,6 +10,7 @@ public class ServiceResult<T> {
     private String errorMsg;
 
     public ServiceResult() {
+        errorMsg = "";
     }
 
     public ServiceResult(String errorMsg) {

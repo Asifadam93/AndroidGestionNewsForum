@@ -84,7 +84,6 @@ public class RetrofitService implements IService {
                 if (resultListener != null) {
                     resultListener.onResult(result);
                 }
-
             }
 
             @Override
@@ -159,7 +158,7 @@ public class RetrofitService implements IService {
 
     }
 
-    public IRetrofitService getRetrofitService() {
+    private IRetrofitService getRetrofitService() {
 
         if (retrofitService == null) {
             retrofitService = RetrofitSession.getInstance().create(IRetrofitService.class);

@@ -1,5 +1,8 @@
 package com.asifadam93.gestionnewsforum.network;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -22,9 +25,12 @@ public class RetrofitSession {
                     .addInterceptor(new HttpLoggingInterceptor()
                             .setLevel(HttpLoggingInterceptor.Level.BODY));
 
+            Gson gson = new GsonBuilder().setLenient().create();
+            //setLenient : to get token
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(ENDPOINT)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(okHttpClient.build())
                     .build();
         }
