@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:design="http://schemas.android.com/apk/res-auto"
     tools:context="com.asifadam93.gestionnewsforum.activities.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/fragment_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_nav"
@@ -16,4 +22,4 @@
         design:itemTextColor="@android:color/white"
         design:menu="@menu/menu_nav"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>
