@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GestionNewsForum</string>
+    <string name="app_name">NewsForum</string>
     <string name="login_incorrect_details">Identifiant et/ou mot de passe incorrect</string>
     <string name="login_missing_fields">Identifiant ou mot de passe manquant</string>
     <string name="login_connexion_error">Erreur : Connexion</string>
@@ -21,4 +21,7 @@
     <string name="inscription_button">inscription</string>
     <string name="diff_password">Les mots de passe ne correspondent pas</string>
     <string name="dif_password">Les mots de passe ne correspondent pas</string>
+    <string name="menu_news">News</string>
+    <string name="menu_topic">Topic</string>
+    <string name="menu_user">User</string>
 </resources>

@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.asifadam93.gestionnewsforum.activity.MainActivity"
-    android:background="@color/background">
+    xmlns:design="http://schemas.android.com/apk/res-auto"
+    tools:context="com.asifadam93.gestionnewsforum.activities.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/frameContainer"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        design:itemBackground="@color/background"
+        design:itemIconTint="@android:color/white"
+        design:itemTextColor="@android:color/white"
+        design:menu="@menu/menu_nav"/>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

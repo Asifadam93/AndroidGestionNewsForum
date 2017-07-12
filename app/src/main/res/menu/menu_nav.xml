@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottom_bar_user"
+        android:icon="@drawable/icons_nav_contacts_30"
+        android:title="@string/menu_user"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/bottom_bar_news"
+        android:icon="@drawable/icons_google_news_30"
+        android:title="@string/menu_news"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/bottom_bar_topic"
+        android:icon="@drawable/icons_topic_30"
+        android:title="@string/menu_topic"
+        app:showAsAction="ifRoom" />
+
+</menu>
