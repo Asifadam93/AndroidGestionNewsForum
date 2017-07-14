@@ -24,4 +24,8 @@
     <string name="menu_news">News</string>
     <string name="menu_topic">Topic</string>
     <string name="menu_user">User</string>
+    <string name="update_user">Mettre à jour</string>
+    <string name="user_profile">User profile</string>
+    <string name="disconnect">disconnect</string>
+    <string name="sign_out">sign out</string>
 </resources>

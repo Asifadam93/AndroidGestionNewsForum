@@ -5,10 +5,12 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="background">#561739</color>
+    <color name="background_lite">#391026</color>
     <color name="white">#FFFFFF</color>
     <color name="white_greyish">#EEEEEE</color>
     <color name="button_selectorcolor">#9E9E9E</color>
 
     <color name="white_70">#B3FFFFFF</color>
+    <color name="red">#800e10</color>
 
 </resources>

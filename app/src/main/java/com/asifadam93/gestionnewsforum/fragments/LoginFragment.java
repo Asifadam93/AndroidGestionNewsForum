@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.asifadam93.gestionnewsforum.Const;
+import com.asifadam93.gestionnewsforum.Util.Const;
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.network.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.network.RetrofitService;
@@ -104,9 +104,9 @@ public class LoginFragment extends Fragment {
     }
 
     private void saveToken(String token){
-        SharedPreferences pref = getActivity().getSharedPreferences(Const.sharedPrefName, 0); // 0 - for private mode
+        SharedPreferences pref = getActivity().getSharedPreferences(Const.SHARED_PREF_NAME, 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString(Const.token, "Bearer "+token); // Storing string
+        editor.putString(Const.TOKEN, "Bearer "+token); // Storing string
         editor.apply(); // commit changes
     }
 
