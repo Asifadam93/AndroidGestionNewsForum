@@ -18,6 +18,9 @@ import com.asifadam93.gestionnewsforum.network.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.network.RetrofitService;
 import com.asifadam93.gestionnewsforum.network.ServiceResult;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * Created by Asifadam93 on 12/07/2017.
@@ -33,7 +36,7 @@ public class UserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        Log.i("UserFragment","onCreateView");
+        Log.i("UserFragment", "onCreateView");
 
         View rootView = inflater.inflate(R.layout.fragment_user, container, false);
 
@@ -59,7 +62,7 @@ public class UserFragment extends Fragment {
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                updateUser();
             }
         });
 
@@ -69,6 +72,57 @@ public class UserFragment extends Fragment {
 
             }
         });
+    }
+
+    private void updateUser() {
+
+        final String firstName = tvFirstName.getText().toString();
+        String lastName = tvLastName.getText().toString();
+        String email = tvEmail.getText().toString();
+
+        if (firstName.isEmpty()) {
+            tvFirstName.setError(getString(R.string.empty_field));
+            return;
+        } else if (lastName.isEmpty()) {
+            tvLastName.setError(getString(R.string.empty_field));
+            return;
+        } else if (email.isEmpty()) {
+            tvEmail.setError(getString(R.string.empty_field));
+            return;
+        }
+
+        Map<String,String> updateMap = new HashMap<>();
+        updateMap.put("lastname",lastName);
+        updateMap.put("firstname",firstName);
+        updateMap.put("email",email);
+
+        getRetrofitService().updateUser(getToken(), updateMap, new IServiceResultListener<String>() {
+            @Override
+            public void onResult(ServiceResult<String> result) {
+
+                if(result != null){
+                    Toast.makeText(getActivity(),firstName+" profile updated",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(),result.getErrorMsg(),Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+    }
+
+    private String getToken() {
+
+        String token = Const.getPref(Const.TOKEN, getActivity());
+
+        if (token != null) {
+            return token;
+        }
+
+        // token == null
+        Toast.makeText(getActivity(), R.string.token_error, Toast.LENGTH_SHORT).show();
+        getActivity().finish();
+        return null;
     }
 
     private void getUserData() {

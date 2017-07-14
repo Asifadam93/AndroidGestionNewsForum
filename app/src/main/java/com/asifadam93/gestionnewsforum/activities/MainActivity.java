@@ -101,6 +101,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        // TODO: 14/07/2017 alertDialog exit 
+        // TODO: 14/07/2017 alertDialog exit
     }
 }
