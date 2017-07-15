@@ -144,6 +144,7 @@ public class UserFragment extends Fragment {
 
                     if (user != null) {
                         setUserDataToView(user);
+                        Const.putPref(Const.USER_ID,user.getId(),getActivity()); // save user id
                     } else {
                         Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
                     }

@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 public class Const {
 
     public final static String TOKEN = "TOKEN";
+    public final static String USER_ID = "USER_ID";
     public final static String SHARED_PREF_NAME = "UserPref";
 
     public static void putPref(String key, String value, Context context) {

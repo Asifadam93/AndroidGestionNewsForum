@@ -1,7 +1,5 @@
 package com.asifadam93.gestionnewsforum.network;
 
-import android.content.Context;
-
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.Util.Const;
 import com.asifadam93.gestionnewsforum.model.News;
@@ -9,6 +7,7 @@ import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.model.User;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -224,6 +223,69 @@ public class RetrofitService implements IService {
             public void onFailure(Call<List<News>> call, Throwable t) {
                 if (result != null) {
                     result.onResult(new ServiceResult<List<News>>(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void updateNews(final String token, String newsId, Map<String, String> newsMap, final IServiceResultListener<String> resultListener) {
+
+        getService().updateNews(token, newsId, newsMap).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> serviceResult = new ServiceResult<>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData("News updated !");
+                } else {
+                    serviceResult.setErrorMsg(Const.getString(R.string.news_update_error));
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void deleteNews(String token, String newsId, final IServiceResultListener<String> resultListener) {
+
+        getService().deleteNews(token, newsId).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> serviceResult = new ServiceResult<>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData("News deleted !");
+                } else {
+                    serviceResult.setErrorMsg(Const.getString(R.string.error_delete_news));
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
                 }
             }
         });

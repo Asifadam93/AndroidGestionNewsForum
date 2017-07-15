@@ -38,4 +38,10 @@
     <string name="show_comments">Show comments</string>
     <string name="update_news">Update</string>
     <string name="delete_news">Delete</string>
+    <string name="news_updated">News updated !</string>
+    <string name="news_update_error">News update error</string>
+    <string name="news_deleted">News deleted !</string>
+    <string name="error_delete_news">Error : News delete</string>
+    <string name="update_access_denied">Access denied to update</string>
+    <string name="delete_access_denied">Access denied to delete</string>
 </resources>
