@@ -21,6 +21,8 @@ public interface IService {
 
     void updateUser(String token, Map<String, String> updateMap, IServiceResultListener<String> result);
 
+    void createNews(String token, Map<String,String> newsMap, IServiceResultListener<String> result);
+
     void getNewsList(String token, IServiceResultListener<List<News>> result);
 
     void getTopicList(String token, IServiceResultListener<List<Topic>> result);

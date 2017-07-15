@@ -7,6 +7,7 @@ import com.asifadam93.gestionnewsforum.model.User;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -42,4 +43,10 @@ public interface IRetrofitService {
 
     @GET("/topics")
     Call<List<Topic>> getTopics(@Header("Authorization") String token);
+
+    @POST("/news")
+    Call<ResponseBody> createNews(
+            @Header("Authorization") String token,
+            @Body Map<String,String> newsMap
+    );
 }

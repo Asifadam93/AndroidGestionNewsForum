@@ -88,7 +88,7 @@ public class LoginFragment extends Fragment {
         userMap.put("email", email);
         userMap.put("password", password);
 
-        getRetrofitService().login(userMap, new IServiceResultListener<String>() {
+        RetrofitService.getInstance().login(userMap, new IServiceResultListener<String>() {
             @Override
             public void onResult(ServiceResult<String> result) {
 
@@ -111,13 +111,6 @@ public class LoginFragment extends Fragment {
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(Const.TOKEN, "Bearer "+token); // Storing string
         editor.apply(); // commit changes
-    }
-
-    private RetrofitService getRetrofitService() {
-        if (retrofitService == null) {
-            retrofitService = new RetrofitService(getActivity());
-        }
-        return retrofitService;
     }
 
     private RegisterFragment getRegisterFragment() {

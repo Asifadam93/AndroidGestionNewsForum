@@ -1,9 +1,9 @@
 package com.asifadam93.gestionnewsforum.network;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.Util.Const;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.model.Topic;
@@ -12,6 +12,7 @@ import com.asifadam93.gestionnewsforum.model.User;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,17 +23,21 @@ import retrofit2.Response;
 
 public class RetrofitService implements IService {
 
-    private IRetrofitService retrofitService;
-    private Context context;
+    private IRetrofitService service;
+    private static RetrofitService retrofitService;
 
-    public RetrofitService(Context context) {
-        this.context = context;
+    public static RetrofitService getInstance() {
+        if (retrofitService == null) {
+            retrofitService = new RetrofitService();
+        }
+        return retrofitService;
     }
+
 
     @Override
     public void login(Map<String, String> loginMap, final IServiceResultListener<String> resultListener) {
 
-        getRetrofitService().login(loginMap).enqueue(new Callback<String>() {
+        getService().login(loginMap).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
@@ -44,15 +49,15 @@ public class RetrofitService implements IService {
 
                     switch (response.code()) {
                         case 404:
-                            result.setErrorMsg(context.getString(R.string.login_incorrect_details));
+                            result.setErrorMsg(Const.getString(R.string.login_incorrect_details));
                             break;
 
                         case 400:
-                            result.setErrorMsg(context.getString(R.string.login_missing_fields));
+                            result.setErrorMsg(Const.getString(R.string.login_missing_fields));
                             break;
 
                         default:
-                            result.setErrorMsg(context.getString(R.string.login_connexion_error));
+                            result.setErrorMsg(Const.getString(R.string.login_connexion_error));
                     }
                 }
 
@@ -74,16 +79,16 @@ public class RetrofitService implements IService {
     @Override
     public void subscribe(Map<String, String> subscribeMap, final IServiceResultListener<String> resultListener) {
 
-        getRetrofitService().subscribe(subscribeMap).enqueue(new Callback<String>() {
+        getService().subscribe(subscribeMap).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
                 ServiceResult<String> result = new ServiceResult<String>();
 
                 if (response.isSuccessful()) {
-                    result.setData(context.getString(R.string.inscription));
+                    result.setData(Const.getString(R.string.inscription));
                 } else {
-                    result.setErrorMsg(context.getString(R.string.error_subscribe));
+                    result.setErrorMsg(Const.getString(R.string.error_subscribe));
                 }
 
                 if (resultListener != null) {
@@ -104,7 +109,7 @@ public class RetrofitService implements IService {
     @Override
     public void getUser(String token, final IServiceResultListener<User> resultListener) {
 
-        getRetrofitService().getUser(token).enqueue(new Callback<User>() {
+        getService().getUser(token).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
 
@@ -113,7 +118,7 @@ public class RetrofitService implements IService {
                 if (response.isSuccessful()) {
                     result.setData(response.body());
                 } else {
-                    result.setErrorMsg(context.getString(R.string.get_user_error));
+                    result.setErrorMsg(Const.getString(R.string.get_user_error));
                 }
 
                 if (resultListener != null) {
@@ -135,16 +140,16 @@ public class RetrofitService implements IService {
     @Override
     public void updateUser(String token, Map<String, String> updateMap, final IServiceResultListener<String> resultListener) {
 
-        getRetrofitService().updateUser(token, updateMap).enqueue(new Callback<String>() {
+        getService().updateUser(token, updateMap).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
                 ServiceResult<String> result = new ServiceResult<String>();
 
                 if (response.isSuccessful()) {
-                    result.setData(context.getString(R.string.user_updated));
+                    result.setData(Const.getString(R.string.user_updated));
                 } else {
-                    result.setErrorMsg(context.getString(R.string.error_update_user));
+                    result.setErrorMsg(Const.getString(R.string.error_update_user));
                 }
 
                 if (resultListener != null) {
@@ -164,21 +169,52 @@ public class RetrofitService implements IService {
     }
 
     @Override
+    public void createNews(String token, Map<String, String> newsMap, final IServiceResultListener<String> resultListener) {
+
+        getService().createNews(token, newsMap).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> result = new ServiceResult<String>();
+
+                if (response.isSuccessful()) {
+                    result.setData(Const.getString(R.string.news_added));
+                } else {
+                    result.setErrorMsg(Const.getString(R.string.error_update_user));
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(result);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+    @Override
     public void getNewsList(String token, final IServiceResultListener<List<News>> result) {
 
-        getRetrofitService().getNews(token).enqueue(new Callback<List<News>>() {
+        getService().getNews(token).enqueue(new Callback<List<News>>() {
             @Override
             public void onResponse(Call<List<News>> call, Response<List<News>> response) {
 
                 ServiceResult<List<News>> serviceResult = new ServiceResult<List<News>>();
 
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     serviceResult.setData(response.body());
                 } else {
-                    serviceResult.setErrorMsg(context.getString(R.string.error_get_news));
+                    serviceResult.setErrorMsg(Const.getString(R.string.error_get_news));
                 }
 
-                if(result != null){
+                if (result != null) {
                     result.onResult(serviceResult);
                 }
 
@@ -197,19 +233,19 @@ public class RetrofitService implements IService {
     @Override
     public void getTopicList(String token, final IServiceResultListener<List<Topic>> result) {
 
-        getRetrofitService().getTopics(token).enqueue(new Callback<List<Topic>>() {
+        getService().getTopics(token).enqueue(new Callback<List<Topic>>() {
             @Override
             public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
 
                 ServiceResult<List<Topic>> serviceResult = new ServiceResult<List<Topic>>();
 
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     serviceResult.setData(response.body());
                 } else {
-                    serviceResult.setErrorMsg(context.getString(R.string.error_get_topic));
+                    serviceResult.setErrorMsg(Const.getString(R.string.error_get_topic));
                 }
 
-                if(result != null){
+                if (result != null) {
                     result.onResult(serviceResult);
                 }
 
@@ -222,15 +258,16 @@ public class RetrofitService implements IService {
                 }
             }
         });
-
     }
 
-    private IRetrofitService getRetrofitService() {
+    private IRetrofitService getService() {
 
-        if (retrofitService == null) {
-            retrofitService = RetrofitSession.getInstance().create(IRetrofitService.class);
+        if (service == null) {
+            service = RetrofitSession.getInstance().create(IRetrofitService.class);
         }
 
-        return retrofitService;
+        return service;
     }
+
+
 }

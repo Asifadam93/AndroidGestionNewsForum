@@ -51,7 +51,7 @@ public class TopicFragment extends Fragment {
 
         if (token != null) {
 
-            getRetrofitService().getTopicList(token, new IServiceResultListener<List<Topic>>() {
+            RetrofitService.getInstance().getTopicList(token, new IServiceResultListener<List<Topic>>() {
                 @Override
                 public void onResult(ServiceResult<List<Topic>> result) {
 
@@ -80,12 +80,4 @@ public class TopicFragment extends Fragment {
         recyclerView.setAdapter(topicAdapter);
     }
 
-    public RetrofitService getRetrofitService() {
-
-        if (retrofitService == null) {
-            retrofitService = new RetrofitService(getActivity());
-        }
-
-        return retrofitService;
-    }
 }

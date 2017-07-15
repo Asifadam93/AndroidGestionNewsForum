@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.fragments.NewsFragment;
@@ -103,4 +104,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //super.onBackPressed();
         // TODO: 14/07/2017 alertDialog exit
     }
+
 }

@@ -117,7 +117,7 @@ public class RegisterFragment extends Fragment {
 
     private void registerUser(final Map<String, String> registerMap) {
 
-        getRetrofitUserService().subscribe(registerMap, new IServiceResultListener<String>() {
+        RetrofitService.getInstance().subscribe(registerMap, new IServiceResultListener<String>() {
             @Override
             public void onResult(ServiceResult<String> result) {
 
@@ -146,10 +146,4 @@ public class RegisterFragment extends Fragment {
         return loginFragment;
     }
 
-    private RetrofitService getRetrofitUserService() {
-        if (retrofitUserService == null) {
-            retrofitUserService = new RetrofitService(getActivity());
-        }
-        return retrofitUserService;
-    }
 }

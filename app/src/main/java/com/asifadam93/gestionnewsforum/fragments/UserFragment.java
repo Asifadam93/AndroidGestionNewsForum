@@ -101,7 +101,7 @@ public class UserFragment extends Fragment {
         updateMap.put("firstname",firstName);
         updateMap.put("email",email);
 
-        getRetrofitService().updateUser(getToken(), updateMap, new IServiceResultListener<String>() {
+        RetrofitService.getInstance().updateUser(getToken(), updateMap, new IServiceResultListener<String>() {
             @Override
             public void onResult(ServiceResult<String> result) {
 
@@ -136,7 +136,7 @@ public class UserFragment extends Fragment {
 
         if (token != null) {
 
-            getRetrofitService().getUser(token, new IServiceResultListener<User>() {
+            RetrofitService.getInstance().getUser(token, new IServiceResultListener<User>() {
                 @Override
                 public void onResult(ServiceResult<User> result) {
 
@@ -165,13 +165,5 @@ public class UserFragment extends Fragment {
         tvEmail.setText(user.getEmail());
     }
 
-    public RetrofitService getRetrofitService() {
-
-        if (retrofitService == null) {
-            retrofitService = new RetrofitService(getActivity());
-        }
-
-        return retrofitService;
-    }
 
 }
