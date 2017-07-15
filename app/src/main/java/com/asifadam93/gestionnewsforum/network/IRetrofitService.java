@@ -1,7 +1,10 @@
 package com.asifadam93.gestionnewsforum.network;
 
+import com.asifadam93.gestionnewsforum.model.News;
+import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.model.User;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -33,4 +36,10 @@ public interface IRetrofitService {
             @Header("Authorization") String token,
             @Body Map<String, String> updateMap
     );
+
+    @GET("/news")
+    Call<List<News>> getNews(@Header("Authorization") String token);
+
+    @GET("/topics")
+    Call<List<Topic>> getTopics(@Header("Authorization") String token);
 }

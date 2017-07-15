@@ -1,5 +1,7 @@
 package com.asifadam93.gestionnewsforum.network;
 
+import com.asifadam93.gestionnewsforum.model.ServiceResult;
+
 /**
  * Created by Asifadam93 on 10/07/2017.
  */

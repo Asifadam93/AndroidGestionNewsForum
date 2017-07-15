@@ -1,5 +1,6 @@
 package com.asifadam93.gestionnewsforum.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,10 +14,11 @@ import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.Util.Const;
+import com.asifadam93.gestionnewsforum.activities.SingInActivity;
 import com.asifadam93.gestionnewsforum.model.User;
 import com.asifadam93.gestionnewsforum.network.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.network.RetrofitService;
-import com.asifadam93.gestionnewsforum.network.ServiceResult;
+import com.asifadam93.gestionnewsforum.model.ServiceResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,20 +60,23 @@ public class UserFragment extends Fragment {
     }
 
     private void initOnClickListeners() {
-
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateUser();
             }
         });
-
         buttonSigOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                signOutUser();
             }
         });
+    }
+
+    private void signOutUser(){
+        getActivity().finish();
+        startActivity(new Intent(getActivity(), SingInActivity.class));
     }
 
     private void updateUser() {

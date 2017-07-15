@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.network.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.network.RetrofitService;
-import com.asifadam93.gestionnewsforum.network.ServiceResult;
+import com.asifadam93.gestionnewsforum.model.ServiceResult;
 
 import java.util.HashMap;
 import java.util.Map;

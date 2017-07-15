@@ -1,4 +1,6 @@
-package com.asifadam93.gestionnewsforum.network;
+package com.asifadam93.gestionnewsforum.model;
+
+import java.util.List;
 
 /**
  * Created by Asifadam93 on 10/07/2017.
@@ -32,4 +34,5 @@ public class ServiceResult<T> {
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg;
     }
+
 }

@@ -10,6 +10,8 @@ import com.asifadam93.gestionnewsforum.fragments.LoginFragment;
 
 public class SingInActivity extends Activity {
 
+    private LoginFragment loginFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +28,15 @@ public class SingInActivity extends Activity {
     }
 
     private void showLoginFragment() {
-        getFragmentManager().beginTransaction().replace(R.id.frameContainer, new LoginFragment()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.frameContainer, getLoginFragment()).commit();
+    }
+
+    public LoginFragment getLoginFragment() {
+
+        if(loginFragment == null){
+            loginFragment = new LoginFragment();
+        }
+
+        return loginFragment;
     }
 }

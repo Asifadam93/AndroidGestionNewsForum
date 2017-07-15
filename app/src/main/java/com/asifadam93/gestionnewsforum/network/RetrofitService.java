@@ -1,10 +1,15 @@
 package com.asifadam93.gestionnewsforum.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.model.News;
+import com.asifadam93.gestionnewsforum.model.ServiceResult;
+import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.model.User;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -152,6 +157,68 @@ public class RetrofitService implements IService {
             public void onFailure(Call<String> call, Throwable t) {
                 if (resultListener != null) {
                     resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void getNewsList(String token, final IServiceResultListener<List<News>> result) {
+
+        getRetrofitService().getNews(token).enqueue(new Callback<List<News>>() {
+            @Override
+            public void onResponse(Call<List<News>> call, Response<List<News>> response) {
+
+                ServiceResult<List<News>> serviceResult = new ServiceResult<List<News>>();
+
+                if(response.isSuccessful()){
+                    serviceResult.setData(response.body());
+                } else {
+                    serviceResult.setErrorMsg(context.getString(R.string.error_get_news));
+                }
+
+                if(result != null){
+                    result.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<News>> call, Throwable t) {
+                if (result != null) {
+                    result.onResult(new ServiceResult<List<News>>(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void getTopicList(String token, final IServiceResultListener<List<Topic>> result) {
+
+        getRetrofitService().getTopics(token).enqueue(new Callback<List<Topic>>() {
+            @Override
+            public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
+
+                ServiceResult<List<Topic>> serviceResult = new ServiceResult<List<Topic>>();
+
+                if(response.isSuccessful()){
+                    serviceResult.setData(response.body());
+                } else {
+                    serviceResult.setErrorMsg(context.getString(R.string.error_get_topic));
+                }
+
+                if(result != null){
+                    result.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Topic>> call, Throwable t) {
+                if (result != null) {
+                    result.onResult(new ServiceResult<List<Topic>>(t.getMessage()));
                 }
             }
         });

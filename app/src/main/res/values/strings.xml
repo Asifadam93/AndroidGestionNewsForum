@@ -29,4 +29,6 @@
     <string name="disconnect">disconnect</string>
     <string name="sign_out">sign out</string>
     <string name="token_error">Token error</string>
+    <string name="error_get_news">Error on getting news list</string>
+    <string name="error_get_topic">Error on getting topic list</string>
 </resources>

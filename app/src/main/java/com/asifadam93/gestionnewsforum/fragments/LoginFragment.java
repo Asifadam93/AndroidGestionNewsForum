@@ -2,6 +2,7 @@ package com.asifadam93.gestionnewsforum.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +16,10 @@ import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.Util.Const;
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.activities.MainActivity;
 import com.asifadam93.gestionnewsforum.network.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.network.RetrofitService;
-import com.asifadam93.gestionnewsforum.network.ServiceResult;
+import com.asifadam93.gestionnewsforum.model.ServiceResult;
 
 import java.util.HashMap;
 
@@ -94,6 +96,7 @@ public class LoginFragment extends Fragment {
 
                 if (token != null) {
                     saveToken(token);
+                    startActivity(new Intent(getActivity(), MainActivity.class));
                     Log.i("LoginFragment", "Token saved");
                 } else {
                     Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
