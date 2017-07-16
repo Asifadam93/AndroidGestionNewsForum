@@ -116,7 +116,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
                 String newsId = newsList.get(getAdapterPosition()).getId();
 
-                String url = "/comments?criteria={offset:0, where:{news:"+newsId+"}}";
+                String url = "/comments?criteria={\"offset\":0,\"where\":{\"news\":\""+newsId+"\"}}";
 
                 Log.i("NewsAdapter","Url : "+url);
 

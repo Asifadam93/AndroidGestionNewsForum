@@ -69,10 +69,10 @@ public interface IRetrofitService {
     @GET("/topics")
     Call<List<Topic>> getTopics(@Header("Authorization") String token);
 
-    @GET("/comments")
+    @GET
     Call<List<Comment>> getComments(
             @Header("Authorization") String token,
-            @Query() String url
+            @Url String url
     );
 
 }
