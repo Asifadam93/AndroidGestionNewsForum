@@ -50,21 +50,26 @@
             android:textSize="20sp"
             android:cursorVisible="false"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dialog_rview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_marginTop="20dp">
 
-            <ImageButton
+            <!--ImageButton
                 android:id="@+id/comment_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/icons_comments_64"
-                android:layout_marginStart="20dp"
+                android:contentDescription="@string/show_comments"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:contentDescription="@string/show_comments" />
+                android:layout_marginStart="13dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,43 +78,28 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/show_comments"
                 android:textColor="@color/white"
-                android:id="@+id/textView2" />
+                android:id="@+id/textView2" /-->
 
             <ImageButton
                 android:id="@+id/update_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/icons_refresh_64"
+                android:contentDescription="@string/update_news"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:contentDescription="@string/update_news"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/update_news"
-                android:textColor="@color/white"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="35dp" />
 
             <ImageButton
                 android:id="@+id/delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/icons_delete_64"
-                android:layout_marginEnd="20dp"
+                android:contentDescription="@string/delete_news"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:contentDescription="@string/delete_news"/>
+                android:layout_marginEnd="35dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete_news"
-                android:textColor="@color/white"
-                android:layout_alignParentBottom="true"
-                android:layout_alignStart="@+id/delete_button"
-                android:layout_marginStart="10dp" />
 
         </RelativeLayout>
 

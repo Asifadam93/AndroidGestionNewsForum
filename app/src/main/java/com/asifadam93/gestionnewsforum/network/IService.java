@@ -1,5 +1,6 @@
 package com.asifadam93.gestionnewsforum.network;
 
+import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.model.User;
@@ -31,5 +32,7 @@ public interface IService {
     void deleteNews(String token, String newsId, IServiceResultListener<String> resultListener);
 
     void getTopicList(String token, IServiceResultListener<List<Topic>> result);
+
+    void getComments(String token, String newsId, IServiceResultListener<List<Comment>> resultListener);
 
 }

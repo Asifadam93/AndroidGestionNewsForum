@@ -1,5 +1,6 @@
 package com.asifadam93.gestionnewsforum.network;
 
+import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.model.User;
@@ -18,6 +19,8 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Created by Asifadam93 on 10/07/2017.
@@ -65,4 +68,11 @@ public interface IRetrofitService {
 
     @GET("/topics")
     Call<List<Topic>> getTopics(@Header("Authorization") String token);
+
+    @GET("/comments")
+    Call<List<Comment>> getComments(
+            @Header("Authorization") String token,
+            @Query() String url
+    );
+
 }

@@ -2,12 +2,12 @@ package com.asifadam93.gestionnewsforum.network;
 
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.Util.Const;
+import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.model.User;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -177,7 +177,7 @@ public class RetrofitService implements IService {
                 ServiceResult<String> result = new ServiceResult<String>();
 
                 if (response.isSuccessful()) {
-                    result.setData(Const.getString(R.string.news_added));
+                    result.setData("News added");
                 } else {
                     result.setErrorMsg(Const.getString(R.string.error_update_user));
                 }
@@ -320,6 +320,37 @@ public class RetrofitService implements IService {
                 }
             }
         });
+    }
+
+    @Override
+    public void getComments(String token, String url, final IServiceResultListener<List<Comment>> resultListener) {
+
+        getService().getComments(token,url).enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+
+                ServiceResult<List<Comment>> serviceResult = new ServiceResult<>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData(response.body());
+                } else {
+                    serviceResult.setErrorMsg("Error : Retrieving comments");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<List<Comment>>(t.getMessage()));
+                }
+            }
+        });
+
     }
 
     private IRetrofitService getService() {

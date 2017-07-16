@@ -2,7 +2,9 @@ package com.asifadam93.gestionnewsforum.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +15,13 @@ import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.Util.Const;
+import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.network.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.network.RetrofitService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +65,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
         private TextView textViewTitle, textViewDesc;
         private EditText editTextTitle, editTextContent;
         private AlertDialog dialog;
+        List<Comment> commentList = new ArrayList<>();
+        CommentAdapter commentAdapter;
 
         MyViewHoled(View itemView) {
             super(itemView);
@@ -77,13 +83,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
             editTextTitle = (EditText) mView.findViewById(R.id.update_delete_title);
             editTextContent = (EditText) mView.findViewById(R.id.update_delete_content);
-            ImageButton buttonComment = (ImageButton) mView.findViewById(R.id.comment_button);
             ImageButton buttonUpdate = (ImageButton) mView.findViewById(R.id.update_button);
             ImageButton buttonDelete = (ImageButton) mView.findViewById(R.id.delete_button);
 
+            RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.dialog_rview);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            commentAdapter = new CommentAdapter(context, commentList);
+            recyclerView.setAdapter(commentAdapter);
+
+            getComments();
+
             editTextTitle.setOnClickListener(this);
             editTextContent.setOnClickListener(this);
-            buttonComment.setOnClickListener(this);
             buttonUpdate.setOnClickListener(this);
             buttonDelete.setOnClickListener(this);
 
@@ -95,6 +106,37 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             builder.setView(mView);
             dialog = builder.create();
             dialog.show();
+        }
+
+        private void getComments() {
+
+            String token = Const.getPref(Const.TOKEN, context);
+
+            if (token != null) {
+
+                String newsId = newsList.get(getAdapterPosition()).getId();
+
+                String url = "/comments?criteria={offset:0, where:{news:"+newsId+"}}";
+
+                Log.i("NewsAdapter","Url : "+url);
+
+                RetrofitService.getInstance().getComments(token, url, new IServiceResultListener<List<Comment>>() {
+                    @Override
+                    public void onResult(ServiceResult<List<Comment>> result) {
+
+                        List<Comment> commentListTmp = result.getData();
+
+                        if (commentListTmp != null) {
+                            commentList.clear();
+                            commentList.addAll(commentListTmp);
+                            commentAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(context, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+            }
         }
 
         @Override
@@ -136,11 +178,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
                         Toast.makeText(context, R.string.delete_access_denied, Toast.LENGTH_SHORT).show();
                     }
 
-                    break;
-
-                case R.id.comment_button:
-
-                    
                     break;
 
             }
