@@ -20,9 +20,9 @@
             android:fontFamily="cursive"
             android:gravity="center"
             android:padding="20dp"
-            android:textColor="@color/white"
             android:text="Add a news"
             android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textColor="@color/white"
             android:textSize="35sp" />
 
         <EditText

@@ -18,13 +18,13 @@ public class SingInActivity extends Activity {
         setContentView(R.layout.activity_sign_in);
 
         // TODO: 12/07/2017 change
-        startActivity(new Intent(this,MainActivity.class));
+        //startActivity(new Intent(this,MainActivity.class));
         Const.putPref(Const.TOKEN,"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1OTUzYWMxN2E2" +
                 "ZTZmNDAwMTFkN2RiNmQiLCJyb2xlIjp7Il9pZCI6IjU5MzA4MTc2ZTIxN2MzMDAxMWNjMDFjYSIsInRpdGx" +
                 "lIjoibWVtYmVyIiwibGV2ZWwiOjIsIl9fdiI6MH0sImlhdCI6MTUwMDA2MTc0M30.yqLvGNHw4LJdJ6Dy9x" +
                 "pCVsn6embHvNIMLN-KScgjN84",this);
 
-        //showLoginFragment();
+        showLoginFragment();
     }
 
     private void showLoginFragment() {

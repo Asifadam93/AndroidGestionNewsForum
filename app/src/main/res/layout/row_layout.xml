@@ -1,31 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
-    android:orientation="vertical">
+    android:layout_margin="8dp"
+    android:background="#FFFFFF">
 
-    <TextView
-        android:id="@+id/rv_text_view"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:maxLines="1"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="25sp" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/rv_tv_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:text="TextView"
-        android:textAlignment="textStart"
-        android:textColor="@color/white"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/rv_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:padding="2dp"
+            android:text="TextView"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/background"
+            android:textSize="25sp"
+            tools:text="Un titre formidable" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/rv_tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:padding="4dp"
+            android:text="TextView"
+            android:textAlignment="textStart"
+            android:textColor="@color/background"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:background="#EEEEEE" />
+
+
+        <TextView
+            android:id="@+id/item_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="05/08/1983"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

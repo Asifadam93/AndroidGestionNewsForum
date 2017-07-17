@@ -15,11 +15,12 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:backgroundTint="@color/floating_button_color"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/icons_plus_50" />
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icons_plus_50"
+        fab:backgroundTint="@color/background"
+        fab:rippleColor="@color/cardview_light_background" />
 
 </RelativeLayout>
