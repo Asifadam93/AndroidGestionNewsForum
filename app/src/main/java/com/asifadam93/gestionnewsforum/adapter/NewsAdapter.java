@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,40 +63,42 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
         return newsList.size();
     }
 
-    class MyViewHoled extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MyViewHoled extends RecyclerView.ViewHolder {
 
         private TextView textViewTitle, textViewDesc;
         private EditText editTextTitle, editTextContent;
         private AlertDialog dialog;
         List<Comment> commentList = new ArrayList<>();
         CommentAdapter commentAdapter;
+        LinearLayout linearLayout;
 
         MyViewHoled(View itemView) {
             super(itemView);
             textViewTitle = (TextView) itemView.findViewById(R.id.rv_text_view);
             textViewDesc = (TextView) itemView.findViewById(R.id.rv_tv_desc);
-            textViewTitle.setOnClickListener(this);
-            textViewDesc.setOnClickListener(this);
+
+            linearLayout = (LinearLayout)itemView.findViewById(R.id.row_linear_layout);
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showNewsDialog();
+                }
+            });
+
         }
 
         private void showNewsDialog() {
-
-
             Intent intent = new Intent(context, NewsActivity.class);
-
-
             News clickedNews = newsList.get(getAdapterPosition());
-
-
             intent.putExtra(NewsActivity.NEWS_CONTENT, clickedNews.getContent());
             intent.putExtra(NewsActivity.NEWS_TITLE, clickedNews.getTitle());
             intent.putExtra(NewsActivity.NEWS_ID, clickedNews.getId());
-
             context.startActivity(intent);
+        }
 
-        /*
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+         /*   final AlertDialog.Builder builder = new AlertDialog.Builder(context);
             final View mView = LayoutInflater.from(context).inflate(R.layout.dialog_update_delete, null);
 
             editTextTitle = (EditText) mView.findViewById(R.id.update_delete_title);
@@ -124,7 +127,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             dialog = builder.create();
             dialog.show();
 
-            */
+
         }
 
 
@@ -239,7 +242,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             }
         }
 
-        /*private boolean isUserEditPermission() {
+        private boolean isUserEditPermission() {
             String selectedNewsUserId = newsList.get(getAdapterPosition()).getAuthor().trim();
             String actualUserId = Const.getPref(Const.USER_ID, context).trim();
             return selectedNewsUserId.equals(actualUserId);
