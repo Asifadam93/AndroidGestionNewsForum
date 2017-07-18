@@ -81,9 +81,7 @@ public class NewsFragment extends Fragment {
                 @Override
                 public void onResult(ServiceResult<List<News>> result) {
 
-
                     final List<News> newsList = result.getData();
-
 
                     if (Const.isInternetAvailable(getContext())) {
                         if (newsList != null) {
@@ -93,7 +91,7 @@ public class NewsFragment extends Fragment {
                                 @Override
                                 public void execute(Realm realm) {
                                     for (News news : newsList) {
-                                        Log.i("AJOUT ", news.toString());
+                                        Log.i("AJOUT N", news.toString());
                                         realm.copyToRealmOrUpdate(news);
                                     }
                                 }
@@ -135,7 +133,6 @@ public class NewsFragment extends Fragment {
             Toast.makeText(getActivity(), "Token error", Toast.LENGTH_SHORT).show();
             getActivity().finish();
         }
-
     }
 
     private void showAddDialog() {

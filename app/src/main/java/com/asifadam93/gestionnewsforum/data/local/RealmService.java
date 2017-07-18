@@ -65,10 +65,10 @@ public class RealmService implements IService {
         List<News> listeNews = new ArrayList<News>();
 
         final Realm realm = Realm.getDefaultInstance();
-        RealmResults<News> urls = realm.where(News.class).findAll();
+        RealmResults<News> news = realm.where(News.class).findAll();
 
 
-        listeNews.addAll(urls);
+        listeNews.addAll(news);
 
         ServiceResult<List<News>> resultTempo =  new ServiceResult<List<News>>();
 
@@ -108,8 +108,21 @@ public class RealmService implements IService {
     }
 
     @Override
-    public void getTopicList(String token, IServiceResultListener<List<Topic>> result) {
+    public void getTopicList(String token, IServiceResultListener<List<Topic>> result)     {
 
+        List<Topic> listeNews = new ArrayList<Topic>();
+
+        final Realm realm = Realm.getDefaultInstance();
+        RealmResults<Topic> topics = realm.where(Topic.class).findAll();
+
+
+        listeNews.addAll(topics);
+
+        ServiceResult<List<Topic>> resultTempo =  new ServiceResult<List<Topic>>();
+
+        resultTempo.setData(listeNews);
+
+        result.onResult(resultTempo);
     }
 
     @Override
