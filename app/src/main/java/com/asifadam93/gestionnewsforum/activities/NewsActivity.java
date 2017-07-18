@@ -27,10 +27,9 @@ import com.asifadam93.gestionnewsforum.util.Const;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsActivity extends AppCompatActivity {
-
-    private Toolbar toolbar;
-    CommentAdapter commentAdapter;
+public class NewsActivity extends AppCompatActivity
+{
+    private CommentAdapter commentAdapter;
     private List<Comment> commentList = new ArrayList<>();
 
     public static String NEWS_CONTENT = "news_content";
@@ -48,8 +47,10 @@ public class NewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
-        TextView newsTextView   =  (TextView) findViewById(R.id.news_content);
-        toolbar         = (Toolbar) findViewById(R.id.toolbar);
+        TextView newsTextView       =  (TextView) findViewById(R.id.news_content);
+        FloatingActionButton fab    = (FloatingActionButton) findViewById(R.id.add_comment);
+        Toolbar toolbar             = (Toolbar) findViewById(R.id.toolbar);
+
 
         setSupportActionBar(toolbar);
 
@@ -64,6 +65,15 @@ public class NewsActivity extends AppCompatActivity {
         getComments(id);
 
         Log.i("NewsActivity", "create");
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Asif à toi de jouer :)", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
     }
 

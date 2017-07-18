@@ -142,14 +142,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
                     showNewsDialog();
                     break;
 
-                case R.id.update_delete_title:
-                    editTextTitle.setCursorVisible(true);
-                    break;
-
-                case R.id.update_delete_content:
-                    editTextContent.setCursorVisible(true);
-                    break;
-
             }
         }
 
