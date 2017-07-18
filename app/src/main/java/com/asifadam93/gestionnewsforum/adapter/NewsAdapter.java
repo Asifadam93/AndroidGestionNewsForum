@@ -3,14 +3,11 @@ package com.asifadam93.gestionnewsforum.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,7 +65,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
         private EditText editTextTitle, editTextContent;
         private AlertDialog dialog;
         List<Comment> commentList = new ArrayList<>();
-        CommentAdapter commentAdapter;
 
         MyViewHoled(View itemView) {
             super(itemView);
@@ -78,7 +74,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             textViewDesc.setOnClickListener(this);
         }
 
-        private void showNewsDialog() {
+        private void showNewsActivity() {
 
 
             Intent intent = new Intent(context, NewsActivity.class);
@@ -92,57 +88,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             intent.putExtra(NewsActivity.NEWS_ID, clickedNews.getId());
 
             context.startActivity(intent);
-
-        /*
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            final View mView = LayoutInflater.from(context).inflate(R.layout.dialog_update_delete, null);
-
-            editTextTitle = (EditText) mView.findViewById(R.id.update_delete_title);
-            editTextContent = (EditText) mView.findViewById(R.id.update_delete_content);
-            ImageButton buttonUpdate = (ImageButton) mView.findViewById(R.id.update_button);
-            ImageButton buttonDelete = (ImageButton) mView.findViewById(R.id.delete_button);
-
-            RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.dialog_rview);
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView
-            
-
-            getComments();
-
-            editTextTitle.setOnClickListener(this);
-            editTextContent.setOnClickListener(this);
-            buttonUpdate.setOnClickListener(this);
-            buttonDelete.setOnClickListener(this);
-
-            News clickedNews = newsList.get(getAdapterPosition());
-
-            editTextTitle.setText(clickedNews.getTitle());
-            editTextContent.setText(clickedNews.getContent());
-
-            builder.setView(mView);
-            dialog = builder.create();
-            dialog.show();
-
-            */
         }
-
 
 
         @Override
         public void onClick(View view) {
-
-            switch (view.getId()) {
-
-                case R.id.rv_text_view:
-                    showNewsDialog();
-                    break;
-
-                case R.id.rv_tv_desc:
-                    showNewsDialog();
-                    break;
-
-            }
+            showNewsActivity();
         }
 
         private void updateNews() {
@@ -238,11 +189,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
                 });
             }
         }
-
-        /*private boolean isUserEditPermission() {
-            String selectedNewsUserId = newsList.get(getAdapterPosition()).getAuthor().trim();
-            String actualUserId = Const.getPref(Const.USER_ID, context).trim();
-            return selectedNewsUserId.equals(actualUserId);
-        }*/
     }
 }

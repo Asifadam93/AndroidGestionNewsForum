@@ -88,7 +88,7 @@ public class RealmService implements IService {
     }
 
     @Override
-    public void getComments(String token, String newsUrl, IServiceResultListener<List<Comment>> resultListener) {
+    public void getComments(String token, String commentsUrl, IServiceResultListener<List<Comment>> resultListener) {
 
     }
 

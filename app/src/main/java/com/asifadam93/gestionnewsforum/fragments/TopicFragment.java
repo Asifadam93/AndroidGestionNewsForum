@@ -12,14 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.adapter.TopicAdapter;
 import com.asifadam93.gestionnewsforum.data.IServiceProvider;
 import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.util.Const;
-import com.asifadam93.gestionnewsforum.adapter.TopicAdapter;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
-import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
-import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
+
 
 import java.util.List;
 
