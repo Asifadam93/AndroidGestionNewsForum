@@ -99,7 +99,7 @@ public class LoginFragment extends Fragment {
                 String token = result.getData();
 
                 if (token != null) {
-                    Const.putPref(Const.TOKEN,"Bearer + token",getActivity()); // save token
+                    Const.putPref(Const.TOKEN,"Bearer "+ token,getActivity()); // save token
                     startActivity(new Intent(getActivity(), MainActivity.class));
                     Log.i("LoginFragment", "Token saved");
                 } else {
