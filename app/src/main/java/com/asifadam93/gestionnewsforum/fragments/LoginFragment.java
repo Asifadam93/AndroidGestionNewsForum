@@ -47,7 +47,11 @@ public class LoginFragment extends Fragment {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userVerification();
+                if (Const.isInternetAvailable(getActivity())) {
+                    userVerification();
+                } else {
+                    Toast.makeText(getActivity(),getString(R.string.internet_not_available),Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -95,7 +99,7 @@ public class LoginFragment extends Fragment {
                 String token = result.getData();
 
                 if (token != null) {
-                    saveToken(token);
+                    Const.putPref(Const.TOKEN,"Bearer + token",getActivity()); // save token
                     startActivity(new Intent(getActivity(), MainActivity.class));
                     Log.i("LoginFragment", "Token saved");
                 } else {
@@ -104,13 +108,6 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void saveToken(String token){
-        SharedPreferences pref = getActivity().getSharedPreferences(Const.SHARED_PREF_NAME, 0); // 0 - for private mode
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString(Const.TOKEN, "Bearer "+token); // Storing string
-        editor.apply(); // commit changes
     }
 
     private RegisterFragment getRegisterFragment() {

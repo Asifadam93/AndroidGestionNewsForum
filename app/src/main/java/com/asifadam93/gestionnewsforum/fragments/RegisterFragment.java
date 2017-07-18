@@ -14,6 +14,7 @@ import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
+import com.asifadam93.gestionnewsforum.util.Const;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +41,11 @@ public class RegisterFragment extends Fragment {
         buttonInscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userVerification();
+                if (Const.isInternetAvailable(getActivity())) {
+                    userVerification();
+                } else {
+                    Toast.makeText(getActivity(),getString(R.string.internet_not_available),Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

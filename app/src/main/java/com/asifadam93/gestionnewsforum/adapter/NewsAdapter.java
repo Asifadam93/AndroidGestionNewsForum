@@ -189,12 +189,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             String content = editTextContent.getText().toString();
 
             if (title.isEmpty()) {
-                editTextTitle.setError(Const.getString(R.string.empty_field));
+                editTextTitle.setError(context.getString(R.string.empty_field));
                 return;
             }
 
             if (content.isEmpty()) {
-                editTextTitle.setError(Const.getString(R.string.empty_field));
+                editTextTitle.setError(context.getString(R.string.empty_field));
                 return;
             }
 

@@ -54,15 +54,15 @@ public class RetrofitService implements IService {
 
                     switch (response.code()) {
                         case 404:
-                            result.setErrorMsg(Const.getString(R.string.login_incorrect_details));
+                            result.setErrorMsg("Incorrect login details");
                             break;
 
                         case 400:
-                            result.setErrorMsg(Const.getString(R.string.login_missing_fields));
+                            result.setErrorMsg("Email or password field is empty");
                             break;
 
                         default:
-                            result.setErrorMsg(Const.getString(R.string.login_connexion_error));
+                            result.setErrorMsg("Error : Connection");
                     }
                 }
 
@@ -91,9 +91,9 @@ public class RetrofitService implements IService {
                 ServiceResult<String> result = new ServiceResult<String>();
 
                 if (response.isSuccessful()) {
-                    result.setData(Const.getString(R.string.inscription));
+                    result.setData("Subscription finished, you can sign in");
                 } else {
-                    result.setErrorMsg(Const.getString(R.string.error_subscribe));
+                    result.setErrorMsg("Error : Subscription");
                 }
 
                 if (resultListener != null) {
@@ -123,7 +123,7 @@ public class RetrofitService implements IService {
                 if (response.isSuccessful()) {
                     result.setData(response.body());
                 } else {
-                    result.setErrorMsg(Const.getString(R.string.get_user_error));
+                    result.setErrorMsg("Error : Retrieving user data");
                 }
 
                 if (resultListener != null) {
@@ -152,9 +152,9 @@ public class RetrofitService implements IService {
                 ServiceResult<String> result = new ServiceResult<String>();
 
                 if (response.isSuccessful()) {
-                    result.setData(Const.getString(R.string.user_updated));
+                    result.setData("User updated");
                 } else {
-                    result.setErrorMsg(Const.getString(R.string.error_update_user));
+                    result.setErrorMsg("Error : User update");
                 }
 
                 if (resultListener != null) {
@@ -189,7 +189,7 @@ public class RetrofitService implements IService {
                 if (response.isSuccessful()) {
                     result.setData("News added");
                 } else {
-                    result.setErrorMsg(Const.getString(R.string.error_update_user));
+                    result.setErrorMsg("Error : User update");
                 }
 
                 if (resultListener != null) {
@@ -220,7 +220,7 @@ public class RetrofitService implements IService {
                 if (response.isSuccessful()) {
                     serviceResult.setData(response.body());
                 } else {
-                    serviceResult.setErrorMsg(Const.getString(R.string.error_get_news));
+                    serviceResult.setErrorMsg("Error on getting news list");
                 }
 
                 if (result != null) {
@@ -251,7 +251,7 @@ public class RetrofitService implements IService {
                 if (response.isSuccessful()) {
                     serviceResult.setData("News updated !");
                 } else {
-                    serviceResult.setErrorMsg(Const.getString(R.string.news_update_error));
+                    serviceResult.setErrorMsg("News update error");
                 }
 
                 if (resultListener != null) {
@@ -283,7 +283,7 @@ public class RetrofitService implements IService {
                 if (response.isSuccessful()) {
                     serviceResult.setData("News deleted !");
                 } else {
-                    serviceResult.setErrorMsg(Const.getString(R.string.error_delete_news));
+                    serviceResult.setErrorMsg("Error : News delete");
                 }
 
                 if (resultListener != null) {
@@ -445,7 +445,7 @@ public class RetrofitService implements IService {
                 if (response.isSuccessful()) {
                     serviceResult.setData(response.body());
                 } else {
-                    serviceResult.setErrorMsg(Const.getString(R.string.error_get_topic));
+                    serviceResult.setErrorMsg("Error on getting topic list");
                 }
 
                 if (result != null) {
