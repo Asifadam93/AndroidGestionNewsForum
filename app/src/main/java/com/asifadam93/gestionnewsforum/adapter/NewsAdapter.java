@@ -89,6 +89,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
             intent.putExtra(NewsActivity.NEWS_CONTENT, clickedNews.getContent());
             intent.putExtra(NewsActivity.NEWS_TITLE, clickedNews.getTitle());
+            intent.putExtra(NewsActivity.NEWS_ID, clickedNews.getId());
 
             context.startActivity(intent);
 
@@ -104,8 +105,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
             RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.dialog_rview);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            commentAdapter = new CommentAdapter(context, commentList);
-            recyclerView.setAdapter(commentAdapter);
+            recyclerView
+            
 
             getComments();
 
@@ -126,36 +127,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             */
         }
 
-        private void getComments() {
 
-            String token = Const.getToken();
-
-            if (token != null) {
-
-                String newsId = newsList.get(getAdapterPosition()).getId();
-
-                String url = "/comments?criteria={\"offset\":0,\"where\":{\"news\":\""+newsId+"\"}}";
-
-                Log.i("NewsAdapter","Url : "+url);
-
-                RetrofitService.getInstance().getComments(token, url, new IServiceResultListener<List<Comment>>() {
-                    @Override
-                    public void onResult(ServiceResult<List<Comment>> result) {
-
-                        List<Comment> commentListTmp = result.getData();
-
-                        if (commentListTmp != null) {
-                            commentList.clear();
-                            commentList.addAll(commentListTmp);
-                            commentAdapter.notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(context, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-            }
-        }
 
         @Override
         public void onClick(View view) {

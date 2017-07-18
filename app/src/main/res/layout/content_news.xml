@@ -8,11 +8,8 @@
     tools:context="com.asifadam93.gestionnewsforum.activities.NewsActivity"
     tools:showIn="@layout/activity_news">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:id="@+id/news_content"
-        android:text="@string/large_text" />
+    <include layout="@layout/content_news_comments" />
+
+
 
 </android.support.v4.widget.NestedScrollView>
