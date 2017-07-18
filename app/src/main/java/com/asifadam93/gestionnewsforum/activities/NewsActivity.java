@@ -36,7 +36,6 @@ public class NewsActivity extends AppCompatActivity
     public static String NEWS_TITLE = "news_title";
     public static String NEWS_ID = "news_id";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -50,7 +49,6 @@ public class NewsActivity extends AppCompatActivity
         TextView newsTextView       =  (TextView) findViewById(R.id.news_content);
         FloatingActionButton fab    = (FloatingActionButton) findViewById(R.id.add_comment);
         Toolbar toolbar             = (Toolbar) findViewById(R.id.toolbar);
-
 
         setSupportActionBar(toolbar);
 
@@ -108,19 +106,15 @@ public class NewsActivity extends AppCompatActivity
 
         if (token != null) {
 
-
             String url = "/comments?criteria={\"offset\":0,\"where\":{\"news\":\""+newsId+"\"}}";
 
             Log.i("NewsAdapter","Url : "+url);
-
 
             RetrofitService.getInstance().getComments(token, url, new IServiceResultListener<List<Comment>>() {
                 @Override
                 public void onResult(ServiceResult<List<Comment>> result) {
 
                     List<Comment> commentListTmp = result.getData();
-
-
 
                     if (commentListTmp != null) {
                         for (Comment comment : commentListTmp) {
@@ -130,8 +124,8 @@ public class NewsActivity extends AppCompatActivity
                         commentList.addAll(commentListTmp);
                         commentAdapter.notifyDataSetChanged();
                     } else {
-                        //Toast.makeText(this, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                        Log.e("NewsActivity",  "Asif HELP");
+                        Toast.makeText(getBaseContext(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                        Log.i("NewsAdapter",  result.getErrorMsg());
                     }
                 }
             });

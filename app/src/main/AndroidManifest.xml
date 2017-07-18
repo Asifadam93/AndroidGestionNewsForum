@@ -24,8 +24,6 @@
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.NewsDetailActivity" />
-        <activity android:name=".activities.TopicDetailActivity" />
         <activity
             android:name=".activities.NewsActivity"
             android:label="@string/title_activity_news"

@@ -26,7 +26,6 @@ public class SingInActivity extends Activity {
             // if token empty, start sign in activity
             getFragmentManager().beginTransaction().replace(R.id.frameContainer, getLoginFragment()).commit();
         }
-
     }
 
     public LoginFragment getLoginFragment() {
