@@ -23,6 +23,7 @@ import com.asifadam93.gestionnewsforum.adapter.CommentAdapter;
 import com.asifadam93.gestionnewsforum.data.IServiceProvider;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
+import com.asifadam93.gestionnewsforum.model.Auth;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.util.Const;
@@ -31,6 +32,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class NewsActivity extends AppCompatActivity {
     private CommentAdapter commentAdapter;
@@ -96,11 +100,15 @@ public class NewsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_modifier) {
+
+            //todo
+
             return true;
         }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_supprimer) {
+
             return true;
         }
 
@@ -205,6 +213,28 @@ public class NewsActivity extends AppCompatActivity {
                 }
             });
         }
+    }
 
+    private void deleteNews() {
+
+        String token = Const.getToken();
+
+        if (token != null) {
+
+            RetrofitService.getInstance().deleteNews(token, newsId, new IServiceResultListener<String>() {
+                @Override
+                public void onResult(ServiceResult<String> result) {
+
+                    String response = result.getData();
+
+                    if (response != null) {
+                        Toast.makeText(getBaseContext(), response, Toast.LENGTH_SHORT).show();
+                        //refreshNewsList();
+                    } else {
+                        Toast.makeText(getBaseContext(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 }
