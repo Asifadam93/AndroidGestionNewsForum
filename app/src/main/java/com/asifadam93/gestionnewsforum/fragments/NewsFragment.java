@@ -16,12 +16,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
-import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.adapter.NewsAdapter;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
+import com.asifadam93.gestionnewsforum.util.Const;
 
 import java.util.ArrayList;
 import java.util.HashMap;
