@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.model.Auth;
 import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.activities.SingInActivity;
 import com.asifadam93.gestionnewsforum.model.User;
@@ -22,6 +23,8 @@ import com.asifadam93.gestionnewsforum.model.ServiceResult;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import io.realm.Realm;
 
 
 /**
@@ -75,6 +78,9 @@ public class UserFragment extends Fragment {
     }
 
     private void signOutUser(){
+
+        Const.deleteToken(); // delete auth token
+
         getActivity().finish();
         startActivity(new Intent(getActivity(), SingInActivity.class));
     }
@@ -118,7 +124,7 @@ public class UserFragment extends Fragment {
 
     private String getToken() {
 
-        String token = Const.getPref(Const.TOKEN, getActivity());
+        String token = Const.getToken();
 
         if (token != null) {
             return token;
@@ -132,7 +138,7 @@ public class UserFragment extends Fragment {
 
     private void getUserData() {
 
-        String token = Const.getPref(Const.TOKEN, getActivity());
+        String token = Const.getToken();
 
         if (token != null) {
 
@@ -144,7 +150,7 @@ public class UserFragment extends Fragment {
 
                     if (user != null) {
                         setUserDataToView(user);
-                        Const.putPref(Const.USER_ID,user.getId(),getActivity()); // save user id
+                        //Const.putPref(Const.USER_ID,user.getId(),getActivity()); // save user id
                     } else {
                         Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
                     }

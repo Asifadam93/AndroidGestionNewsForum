@@ -34,7 +34,6 @@ public class LoginFragment extends Fragment {
     private Button buttonLogin;
     private TextView textViewRegister;
     private View view;
-    private RetrofitService retrofitService;
     private RegisterFragment registerFragment;
 
     @Override
@@ -99,7 +98,7 @@ public class LoginFragment extends Fragment {
                 String token = result.getData();
 
                 if (token != null) {
-                    Const.putPref(Const.TOKEN,"Bearer "+ token,getActivity()); // save token
+                    Const.setToken(token); // save token
                     startActivity(new Intent(getActivity(), MainActivity.class));
                     Log.i("LoginFragment", "Token saved");
                 } else {

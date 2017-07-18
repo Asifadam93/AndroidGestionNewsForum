@@ -110,7 +110,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
         private void getComments() {
 
-            String token = Const.getPref(Const.TOKEN, context);
+            String token = Const.getToken();
 
             if (token != null) {
 
@@ -160,7 +160,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
                     editTextContent.setCursorVisible(true);
                     break;
 
-                case R.id.update_button:
+                /*case R.id.update_button:
 
                     if (isUserEditPermission()) {
                         updateNews();
@@ -178,7 +178,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
                         Toast.makeText(context, R.string.delete_access_denied, Toast.LENGTH_SHORT).show();
                     }
 
-                    break;
+                    break;*/
 
             }
         }
@@ -202,7 +202,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             updateMap.put("title", title);
             updateMap.put("content", content);
 
-            String token = Const.getPref(Const.TOKEN, context);
+            String token = Const.getToken();
 
             if (token != null) {
 
@@ -227,7 +227,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
         private void deleteNews() {
 
-            String token = Const.getPref(Const.TOKEN, context);
+            String token = Const.getToken();
 
             if (token != null) {
 
@@ -254,7 +254,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
         private void refreshNewsList() {
 
-            String token = Const.getPref(Const.TOKEN, context);
+            String token = Const.getToken();
 
             if (token != null) {
 
@@ -277,10 +277,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             }
         }
 
-        private boolean isUserEditPermission() {
+        /*private boolean isUserEditPermission() {
             String selectedNewsUserId = newsList.get(getAdapterPosition()).getAuthor().trim();
             String actualUserId = Const.getPref(Const.USER_ID, context).trim();
             return selectedNewsUserId.equals(actualUserId);
-        }
+        }*/
     }
 }

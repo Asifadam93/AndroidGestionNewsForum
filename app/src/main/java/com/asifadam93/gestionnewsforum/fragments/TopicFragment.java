@@ -45,7 +45,7 @@ public class TopicFragment extends Fragment {
 
     private void getTopicList() {
 
-        String token = Const.getPref(Const.TOKEN, getActivity());
+        String token = Const.getToken();
 
         if (token != null) {
 

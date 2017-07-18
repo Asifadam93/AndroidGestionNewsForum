@@ -73,10 +73,9 @@ public class NewsFragment extends Fragment {
 
     private void getNewsList() {
 
-        String token = Const.getPref(Const.TOKEN, getActivity());
+        String token = Const.getToken();
 
         if (token != null) {
-
 
             IServiceProvider.getService(getContext()).getNewsList(token, new IServiceResultListener<List<News>>() {
                 @Override
@@ -180,7 +179,7 @@ public class NewsFragment extends Fragment {
 
     private void addNews(Map<String, String> map) {
 
-        String token = Const.getPref(Const.TOKEN, getActivity());
+        String token = Const.getToken();
 
         if (token != null) {
 
