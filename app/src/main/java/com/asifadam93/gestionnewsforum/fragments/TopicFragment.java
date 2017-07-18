@@ -38,7 +38,7 @@ public class TopicFragment extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.news_recycler_view);
 
-        getTopicList();
+        //getTopicList();
 
         return rootView;
     }

@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.adapter.NewsAdapter;
+import com.asifadam93.gestionnewsforum.data.IServiceProvider;
+import com.asifadam93.gestionnewsforum.data.local.RealmService;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
@@ -75,49 +77,60 @@ public class NewsFragment extends Fragment {
 
         if (token != null) {
 
-            RetrofitService.getInstance().getNewsList(token, new IServiceResultListener<List<News>>() {
+
+            IServiceProvider.getService(getContext()).getNewsList(token, new IServiceResultListener<List<News>>() {
                 @Override
                 public void onResult(ServiceResult<List<News>> result) {
 
+
                     final List<News> newsList = result.getData();
 
-                    if (newsList != null) {
 
-                        //sauvegarde des news récupées en Async (pour ne pas ralentir l'UI)
-                        realm.executeTransactionAsync(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                for (News news : newsList) {
-                                    Log.i("AJOUT ", news.toString());
-                                    realm.copyToRealmOrUpdate(news);
+                    if (Const.isInternetAvailable(getContext())) {
+                        if (newsList != null) {
+
+                            //sauvegarde des news récupées en Async (pour ne pas ralentir l'UI)
+                            realm.executeTransactionAsync(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    for (News news : newsList) {
+                                        Log.i("AJOUT ", news.toString());
+                                        realm.copyToRealmOrUpdate(news);
+                                    }
                                 }
-                            }
-                        }, new Realm.Transaction.OnSuccess() {
+                            }, new Realm.Transaction.OnSuccess() {
 
-                            @Override
-                            public void onSuccess() {
-                                Log.i("Realm", "It's working");
-                                Toast.makeText(getActivity(), "URL enregistrée", Toast.LENGTH_LONG).show();
+                                @Override
+                                public void onSuccess() {
+                                    Log.i("Realm", "It's working");
+                                    Toast.makeText(getActivity(), "URL enregistrée", Toast.LENGTH_LONG).show();
 
-                            }
-                        }, new Realm.Transaction.OnError() {
+                                }
+                            }, new Realm.Transaction.OnError() {
 
-                            @Override
-                            public void onError(Throwable error) {
-                                Log.e("Realm", "It's a bug");
-                                Toast.makeText(getActivity(), "Erreur lors de l'enregitrement", Toast.LENGTH_LONG).show();
+                                @Override
+                                public void onError(Throwable error) {
+                                    Log.e("Realm", "It's a bug");
+                                    Toast.makeText(getActivity(), "Erreur lors de l'enregitrement", Toast.LENGTH_LONG).show();
 
-                            }
-                        });
-
+                                }
+                            });
 
 
-                        setNews(newsList);
+                            setNews(newsList);
+                        } else {
+                            Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                        if (newsList != null) {
+                            setNews(newsList);
+                        } else {
+                            Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
+
 
         } else {
             Toast.makeText(getActivity(), "Token error", Toast.LENGTH_SHORT).show();

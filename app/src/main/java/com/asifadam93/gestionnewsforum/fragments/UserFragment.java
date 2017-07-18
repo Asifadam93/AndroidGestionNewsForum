@@ -46,7 +46,7 @@ public class UserFragment extends Fragment {
 
         initOnClickListeners();
 
-        getUserData();
+        //getUserData();
 
         return rootView;
     }

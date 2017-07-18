@@ -2,20 +2,36 @@ package com.asifadam93.gestionnewsforum.data.local;
 
 import com.asifadam93.gestionnewsforum.data.IService;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
+import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.Post;
+import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by Asifadam93 on 18/07/2017.
  */
 
 public class RealmService implements IService {
+
+    final Realm realm = Realm.getDefaultInstance();
+    static RealmService realmService;
+
+    public static RealmService getInstance() {
+        if (realmService == null) {
+            realmService = new RealmService();
+        }
+        return realmService;
+    }
 
     @Override
     public void login(Map<String, String> loginMap, IServiceResultListener<String> result) {
@@ -43,8 +59,22 @@ public class RealmService implements IService {
     }
 
     @Override
-    public void getNewsList(String token, IServiceResultListener<List<News>> result) {
+    public void getNewsList(String token, IServiceResultListener<List<News>> result)
+    {
 
+        List<News> listeNews = new ArrayList<News>();
+
+        final Realm realm = Realm.getDefaultInstance();
+        RealmResults<News> urls = realm.where(News.class).findAll();
+
+
+        listeNews.addAll(urls);
+
+        ServiceResult<List<News>> resultTempo =  new ServiceResult<List<News>>();
+
+        resultTempo.setData(listeNews);
+
+        result.onResult(resultTempo);
     }
 
     @Override
