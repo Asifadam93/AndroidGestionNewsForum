@@ -1,9 +1,8 @@
-package com.asifadam93.gestionnewsforum.Util;
+package com.asifadam93.gestionnewsforum.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 
 /**
  * Created by AAD on 11/07/2017.

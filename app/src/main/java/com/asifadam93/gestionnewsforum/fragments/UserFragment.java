@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
-import com.asifadam93.gestionnewsforum.Util.Const;
+import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.activities.SingInActivity;
 import com.asifadam93.gestionnewsforum.model.User;
 import com.asifadam93.gestionnewsforum.network.IServiceResultListener;

@@ -1,7 +1,7 @@
 package com.asifadam93.gestionnewsforum.network;
 
 import com.asifadam93.gestionnewsforum.R;
-import com.asifadam93.gestionnewsforum.Util.Const;
+import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.Post;
