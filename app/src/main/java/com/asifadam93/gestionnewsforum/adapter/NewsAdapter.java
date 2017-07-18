@@ -8,11 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import android.widget.LinearLayout;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.activities.NewsActivity;
+import com.asifadam93.gestionnewsforum.activities.NewsActivity;
+import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
@@ -65,6 +70,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
         private EditText editTextTitle, editTextContent;
         private AlertDialog dialog;
         List<Comment> commentList = new ArrayList<>();
+        //CommentAdapter commentAdapter;
 
         MyViewHoled(View itemView) {
             super(itemView);
@@ -88,6 +94,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             intent.putExtra(NewsActivity.NEWS_ID, clickedNews.getId());
 
             context.startActivity(intent);
+
         }
 
 
