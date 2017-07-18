@@ -1,7 +1,6 @@
 package com.asifadam93.gestionnewsforum.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -14,22 +13,6 @@ import io.realm.Realm;
  */
 
 public class Const {
-
-    public final static String TOKEN = "TOKEN";
-    public final static String USER_ID = "USER_ID";
-    public final static String SHARED_PREF_NAME = "UserPref";
-
-    /*public static void putPref(String key, String value, Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(Const.SHARED_PREF_NAME, 0);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(key, value);
-        editor.apply();
-    }
-
-    public static String getPref(String key, Context context) {
-        SharedPreferences prefs = context.getSharedPreferences(Const.SHARED_PREF_NAME, 0);
-        return prefs.getString(key, null);
-    }*/
 
     public static boolean isInternetAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -58,7 +41,7 @@ public class Const {
         });
     }
 
-    public static void deleteToken(){
+    public static void deleteAuth() {
 
         Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
             @Override
@@ -67,5 +50,41 @@ public class Const {
             }
         });
 
+    }
+
+    public static void setUserId(final String userId) {
+
+        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Auth auth = Realm.getDefaultInstance().where(Auth.class).findFirst();
+                auth.setUserId(userId);
+                realm.copyToRealmOrUpdate(auth);
+            }
+        });
+    }
+
+    public static String getUserId() {
+
+        Auth auth = Realm.getDefaultInstance().where(Auth.class).findFirst();
+
+        if (auth != null) {
+            return auth.getUserId();
+        }
+
+        return null;
+    }
+
+    public static boolean hasPermissionToEdit(String authorId) {
+
+        String userId = getUserId();
+
+        if (userId != null) {
+
+            if (userId.equals(authorId)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

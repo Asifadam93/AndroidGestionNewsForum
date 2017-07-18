@@ -11,9 +11,9 @@ public class Auth extends RealmObject {
 
     @PrimaryKey
     private String token;
+    private String userId;
 
     public Auth() {
-
     }
 
     public Auth(String token) {
@@ -26,5 +26,13 @@ public class Auth extends RealmObject {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

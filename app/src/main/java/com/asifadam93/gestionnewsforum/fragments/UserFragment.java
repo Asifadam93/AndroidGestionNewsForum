@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
-import com.asifadam93.gestionnewsforum.model.Auth;
+import com.asifadam93.gestionnewsforum.data.IServiceProvider;
 import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.activities.SingInActivity;
 import com.asifadam93.gestionnewsforum.model.User;
@@ -23,8 +23,6 @@ import com.asifadam93.gestionnewsforum.model.ServiceResult;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import io.realm.Realm;
 
 
 /**
@@ -49,7 +47,7 @@ public class UserFragment extends Fragment {
 
         initOnClickListeners();
 
-        //getUserData();
+        getUserData();
 
         return rootView;
     }
@@ -79,7 +77,7 @@ public class UserFragment extends Fragment {
 
     private void signOutUser(){
 
-        Const.deleteToken(); // delete auth token
+        Const.deleteAuth(); // delete auth token
 
         getActivity().finish();
         startActivity(new Intent(getActivity(), SingInActivity.class));
@@ -142,7 +140,7 @@ public class UserFragment extends Fragment {
 
         if (token != null) {
 
-            RetrofitService.getInstance().getUser(token, new IServiceResultListener<User>() {
+            IServiceProvider.getService(getContext()).getUser(token, new IServiceResultListener<User>() {
                 @Override
                 public void onResult(ServiceResult<User> result) {
 
@@ -150,7 +148,7 @@ public class UserFragment extends Fragment {
 
                     if (user != null) {
                         setUserDataToView(user);
-                        //Const.putPref(Const.USER_ID,user.getId(),getActivity()); // save user id
+                        Const.setUserId(user.getId()); // save user id
                     } else {
                         Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
                     }
