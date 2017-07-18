@@ -5,45 +5,61 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.adapter.CommentAdapter;
+import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
+import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
+import com.asifadam93.gestionnewsforum.model.Comment;
+import com.asifadam93.gestionnewsforum.model.News;
+import com.asifadam93.gestionnewsforum.model.ServiceResult;
+import com.asifadam93.gestionnewsforum.util.Const;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    CommentAdapter commentAdapter;
+    private List<Comment> commentList = new ArrayList<>();
 
-    public static String NEWS_CONTENT = "url_article";
-    public static String NEWS_TITLE = "url_titre";
-
+    public static String NEWS_CONTENT = "news_content";
+    public static String NEWS_TITLE = "news_title";
+    public static String NEWS_ID = "news_id";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String title = getIntent().getStringExtra(NEWS_TITLE);
-        String content = getIntent().getStringExtra(NEWS_CONTENT);
+        String title    = getIntent().getStringExtra(NEWS_TITLE);
+        String content  = getIntent().getStringExtra(NEWS_CONTENT);
+        String id       = getIntent().getStringExtra(NEWS_ID);
 
-        Log.i("NewsActivity", "create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView newsTextView   =  (TextView) findViewById(R.id.news_content);
+        toolbar         = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
-        TextView newsTextView =  (TextView) findViewById(R.id.news_content);
-
-        Log.i("NewsActivity", "create");
-
-        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
         newsTextView.setText(content);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.dialog_rview);
+        commentAdapter = new CommentAdapter(this, commentList);
+        recyclerView.setAdapter(commentAdapter);
+
+        getComments(id);
 
         Log.i("NewsActivity", "create");
 
@@ -72,4 +88,38 @@ public class NewsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    private void getComments(String newsId) {
+
+        String token = Const.getToken();
+
+        if (token != null) {
+
+
+            String url = "/comments?criteria={\"offset\":0,\"where\":{\"news\":\""+newsId+"\"}}";
+
+            Log.i("NewsAdapter","Url : "+url);
+
+
+            RetrofitService.getInstance().getComments(token, url, new IServiceResultListener<List<Comment>>() {
+                @Override
+                public void onResult(ServiceResult<List<Comment>> result) {
+
+                    List<Comment> commentListTmp = result.getData();
+
+                    if (commentListTmp != null) {
+                        commentList.clear();
+                        commentList.addAll(commentListTmp);
+                        commentAdapter.notifyDataSetChanged();
+                    } else {
+                        //Toast.makeText(this, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                        Log.e("NewsActivity",  "Asif HELP");
+                    }
+                }
+            });
+
+        }
+    }
+
 }
