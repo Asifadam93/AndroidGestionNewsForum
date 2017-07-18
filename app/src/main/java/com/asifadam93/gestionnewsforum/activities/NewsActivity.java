@@ -1,6 +1,7 @@
 package com.asifadam93.gestionnewsforum.activities;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,23 +13,26 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.adapter.CommentAdapter;
+import com.asifadam93.gestionnewsforum.data.IServiceProvider;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
 import com.asifadam93.gestionnewsforum.model.Comment;
-import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.util.Const;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class NewsActivity extends AppCompatActivity
-{
+public class NewsActivity extends AppCompatActivity {
     private CommentAdapter commentAdapter;
     private List<Comment> commentList = new ArrayList<>();
 
@@ -36,19 +40,22 @@ public class NewsActivity extends AppCompatActivity
     public static String NEWS_TITLE = "news_title";
     public static String NEWS_ID = "news_id";
 
+    private Dialog dialog;
+    private String newsId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String title    = getIntent().getStringExtra(NEWS_TITLE);
-        String content  = getIntent().getStringExtra(NEWS_CONTENT);
-        String id       = getIntent().getStringExtra(NEWS_ID);
+        String title = getIntent().getStringExtra(NEWS_TITLE);
+        String content = getIntent().getStringExtra(NEWS_CONTENT);
+        newsId = getIntent().getStringExtra(NEWS_ID);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
-        TextView newsTextView       =  (TextView) findViewById(R.id.news_content);
-        FloatingActionButton fab    = (FloatingActionButton) findViewById(R.id.add_comment);
-        Toolbar toolbar             = (Toolbar) findViewById(R.id.toolbar);
+        TextView newsTextView = (TextView) findViewById(R.id.news_content);
+        FloatingActionButton fabAddComment = (FloatingActionButton) findViewById(R.id.add_comment);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -60,16 +67,17 @@ public class NewsActivity extends AppCompatActivity
         commentAdapter = new CommentAdapter(this, commentList);
         recyclerView.setAdapter(commentAdapter);
 
-        getComments(id);
+        getComments();
 
         Log.i("NewsActivity", "create");
 
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        fabAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Asif à toi de jouer :)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Asif à toi de jouer :)", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                showAddCommentDialog();
             }
         });
 
@@ -100,15 +108,15 @@ public class NewsActivity extends AppCompatActivity
     }
 
 
-    private void getComments(String newsId) {
+    private void getComments() {
 
         String token = Const.getToken();
 
         if (token != null) {
 
-            String url = "/comments?criteria={\"offset\":0,\"where\":{\"news\":\""+newsId+"\"}}";
+            String url = "/comments?criteria={\"offset\":0,\"where\":{\"news\":\"" + newsId + "\"}}";
 
-            Log.i("NewsAdapter","Url : "+url);
+            Log.i("NewsAdapter", "Url : " + url);
 
             RetrofitService.getInstance().getComments(token, url, new IServiceResultListener<List<Comment>>() {
                 @Override
@@ -117,20 +125,86 @@ public class NewsActivity extends AppCompatActivity
                     List<Comment> commentListTmp = result.getData();
 
                     if (commentListTmp != null) {
-                        for (Comment comment : commentListTmp) {
+                        /*for (Comment comment : commentListTmp) {
                             Log.i("NewsActivity", comment.toString());
-                        }
+                        }*/
                         commentList.clear();
                         commentList.addAll(commentListTmp);
                         commentAdapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(getBaseContext(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                        Log.i("NewsAdapter",  result.getErrorMsg());
+                        Log.i("NewsAdapter", result.getErrorMsg());
                     }
                 }
             });
-
         }
     }
 
+    private void showAddCommentDialog() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View mView = getLayoutInflater().inflate(R.layout.dialog_add, null);
+
+        TextView textViewTitle = (TextView) mView.findViewById(R.id.add_welcome_title);
+        final EditText editTextTitle = (EditText) mView.findViewById(R.id.add_title);
+        final EditText editTextContent = (EditText) mView.findViewById(R.id.add_content);
+        Button buttonSave = (Button) mView.findViewById(R.id.module_button_save);
+
+        //change welcome title
+        textViewTitle.setText(R.string.add_comment);
+
+        builder.setView(mView);
+        dialog = builder.create();
+        dialog.show();
+
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String title = editTextTitle.getText().toString();
+                String content = editTextContent.getText().toString();
+
+                if (title.isEmpty()) {
+                    editTextTitle.setError(getString(R.string.empty_field));
+                    return;
+                }
+
+                if (content.isEmpty()) {
+                    editTextContent.setError(getString(R.string.empty_field));
+                    return;
+                }
+
+                Map<String, String> addCommentMap = new HashMap<>();
+                addCommentMap.put("title", title);
+                addCommentMap.put("content", content);
+                addCommentMap.put("news",newsId);
+                addComment(addCommentMap);
+            }
+        });
+    }
+
+    private void addComment(Map<String, String> map) {
+
+        String token = Const.getToken();
+
+        if (token != null) {
+
+            IServiceProvider.getService(this).createComment(token, map, new IServiceResultListener<String>() {
+                @Override
+                public void onResult(ServiceResult<String> result) {
+
+                    String res = result.getData();
+
+                    if (res != null) {
+                        Toast.makeText(getBaseContext(), res, Toast.LENGTH_SHORT).show();
+                        getComments();
+                        dialog.cancel();
+                    } else {
+                        Toast.makeText(getBaseContext(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+
+    }
 }
