@@ -5,12 +5,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.data.IServiceProvider;
+import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.adapter.TopicAdapter;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
@@ -20,15 +23,18 @@ import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
 
 import java.util.List;
 
+import io.realm.Realm;
+
 
 /**
  * Created by Asifadam93 on 12/07/2017.
  */
 
-public class TopicFragment extends Fragment {
+public class TopicFragment extends Fragment
+{
 
-    private RetrofitService retrofitService;
     private RecyclerView recyclerView;
+    final Realm realm = Realm.getDefaultInstance();
 
     @Nullable
     @Override
@@ -38,7 +44,7 @@ public class TopicFragment extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.news_recycler_view);
 
-        //getTopicList();
+        getTopicList();
 
         return rootView;
     }
@@ -49,20 +55,64 @@ public class TopicFragment extends Fragment {
 
         if (token != null) {
 
-            RetrofitService.getInstance().getTopicList(token, new IServiceResultListener<List<Topic>>() {
-                @Override
-                public void onResult(ServiceResult<List<Topic>> result) {
+            if (token != null) {
 
-                    List<Topic> topicList = result.getData();
+                IServiceProvider.getService(getContext()).getTopicList(token, new IServiceResultListener<List<Topic>>() {
+                    @Override
+                    public void onResult(ServiceResult<List<Topic>> result) {
 
-                    if (topicList != null) {
-                        setTopics(topicList);
-                    } else {
-                        Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                        final List<Topic> topicsList = result.getData();
+
+                        if (Const.isInternetAvailable(getContext())) {
+                            if (topicsList != null) {
+
+                                //sauvegarde des news récupées en Async (pour ne pas ralentir l'UI)
+                                realm.executeTransactionAsync(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        for (Topic topic : topicsList) {
+                                            Log.i("AJOUT T", topic.toString());
+                                            realm.copyToRealmOrUpdate(topic);
+                                        }
+                                    }
+                                }, new Realm.Transaction.OnSuccess() {
+
+                                    @Override
+                                    public void onSuccess() {
+                                        Log.i("Realm", "It's working");
+                                        Toast.makeText(getActivity(), "URL enregistrée", Toast.LENGTH_LONG).show();
+
+                                    }
+                                }, new Realm.Transaction.OnError() {
+
+                                    @Override
+                                    public void onError(Throwable error) {
+                                        Log.e("Realm", "It's a bug");
+                                        Toast.makeText(getActivity(), "Erreur lors de l'enregitrement", Toast.LENGTH_LONG).show();
+
+                                    }
+                                });
+
+
+                                setTopics(topicsList);
+                            } else {
+                                Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            if (topicsList != null) {
+                                setTopics(topicsList);
+                            } else {
+                                Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
+                });
 
-                }
-            });
+
+            } else {
+                Toast.makeText(getActivity(), "Token error", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+            }
 
         } else {
             Toast.makeText(getActivity(), "Token error", Toast.LENGTH_SHORT).show();
