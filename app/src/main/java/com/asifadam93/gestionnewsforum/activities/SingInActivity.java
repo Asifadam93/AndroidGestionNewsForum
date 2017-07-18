@@ -1,11 +1,10 @@
 package com.asifadam93.gestionnewsforum.activities;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.asifadam93.gestionnewsforum.R;
-import com.asifadam93.gestionnewsforum.Util.Const;
+import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.fragments.LoginFragment;
 
 public class SingInActivity extends Activity {

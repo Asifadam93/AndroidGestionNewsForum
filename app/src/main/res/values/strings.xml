@@ -3,7 +3,7 @@
     <string name="login_incorrect_details">Incorrect login details</string>
     <string name="login_missing_fields">Email or password field is empty</string>
     <string name="login_connexion_error">Error : Connection</string>
-    <string name="inscription">Inscription terminée, vous pouvez connecté Subscription finished, you can sign in</string>
+    <string name="inscription">Subscription finished, you can sign in</string>
     <string name="error_subscribe">Error : Subscription</string>
     <string name="get_user_error">Error : Retrieving user data</string>
     <string name="user_updated">User updated</string>
@@ -44,4 +44,5 @@
     <string name="error_delete_news">Error : News delete</string>
     <string name="update_access_denied">Access denied to update</string>
     <string name="delete_access_denied">Access denied to delete</string>
+    <string name="internet_not_available">Internet not available, try again later</string>
 </resources>

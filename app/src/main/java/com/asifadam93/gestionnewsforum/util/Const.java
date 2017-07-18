@@ -1,9 +1,10 @@
-package com.asifadam93.gestionnewsforum.Util;
+package com.asifadam93.gestionnewsforum.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 /**
  * Created by AAD on 11/07/2017.
@@ -27,7 +28,9 @@ public class Const {
         return prefs.getString(key, null);
     }
 
-    public static String getString(int id){
-        return Resources.getSystem().getString(id);
+    public static boolean isInternetAvailable(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork != null && activeNetwork.isConnected());
     }
 }

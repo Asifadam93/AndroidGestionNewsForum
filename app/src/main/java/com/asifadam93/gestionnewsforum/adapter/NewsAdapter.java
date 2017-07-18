@@ -14,12 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
-import com.asifadam93.gestionnewsforum.Util.Const;
+import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
-import com.asifadam93.gestionnewsforum.network.IServiceResultListener;
-import com.asifadam93.gestionnewsforum.network.RetrofitService;
+import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
+import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -189,12 +189,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             String content = editTextContent.getText().toString();
 
             if (title.isEmpty()) {
-                editTextTitle.setError(Const.getString(R.string.empty_field));
+                editTextTitle.setError(context.getString(R.string.empty_field));
                 return;
             }
 
             if (content.isEmpty()) {
-                editTextTitle.setError(Const.getString(R.string.empty_field));
+                editTextTitle.setError(context.getString(R.string.empty_field));
                 return;
             }
 

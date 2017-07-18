@@ -1,4 +1,4 @@
-package com.asifadam93.gestionnewsforum.network;
+package com.asifadam93.gestionnewsforum.data;
 
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 

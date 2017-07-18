@@ -1,4 +1,4 @@
-package com.asifadam93.gestionnewsforum.network;
+package com.asifadam93.gestionnewsforum.data.network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
