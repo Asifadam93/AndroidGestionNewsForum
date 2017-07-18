@@ -1,6 +1,8 @@
-package com.asifadam93.gestionnewsforum.network;
+package com.asifadam93.gestionnewsforum.data.network;
 
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.data.IService;
+import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;

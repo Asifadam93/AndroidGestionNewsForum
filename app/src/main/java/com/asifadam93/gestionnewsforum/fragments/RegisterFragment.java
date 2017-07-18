@@ -11,8 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
-import com.asifadam93.gestionnewsforum.network.IServiceResultListener;
-import com.asifadam93.gestionnewsforum.network.RetrofitService;
+import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
+import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 
 import java.util.HashMap;
