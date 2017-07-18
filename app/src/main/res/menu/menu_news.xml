@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.asifadam93.gestionnewsforum.activities.NewsActivity">
+    <item
+        android:id="@+id/action_supprimer"
+        android:orderInCategory="100"
+        android:title="Supprimer"
+        android:icon="@drawable/icon_delete_32"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_modifier"
+        android:orderInCategory="200"
+        android:icon="@drawable/icon_update_32"
+        android:title="Modifier"
+        app:showAsAction="always" />
+</menu>

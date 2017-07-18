@@ -2,6 +2,7 @@ package com.asifadam93.gestionnewsforum.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.activities.NewsActivity;
 import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
@@ -87,6 +89,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
         /*private void showNewsDialog() {
 
+
+            Intent intent = new Intent(context, NewsActivity.class);
+
+
+            News clickedNews = newsList.get(getAdapterPosition());
+
+
+            intent.putExtra(NewsActivity.NEWS_CONTENT, clickedNews.getContent());
+            intent.putExtra(NewsActivity.NEWS_TITLE, clickedNews.getTitle());
+
+            context.startActivity(intent);
+
+        /*
+
             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
             final View mView = LayoutInflater.from(context).inflate(R.layout.dialog_update_delete, null);
 
@@ -115,6 +131,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             builder.setView(mView);
             dialog = builder.create();
             dialog.show();
+
+            */
         }
 
         private void getComments() {
