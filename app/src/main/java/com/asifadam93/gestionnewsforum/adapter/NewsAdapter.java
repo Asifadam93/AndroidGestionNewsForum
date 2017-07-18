@@ -160,26 +160,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
                     editTextContent.setCursorVisible(true);
                     break;
 
-                /*case R.id.update_button:
-
-                    if (isUserEditPermission()) {
-                        updateNews();
-                    } else {
-                        Toast.makeText(context, R.string.update_access_denied, Toast.LENGTH_SHORT).show();
-                    }
-
-                    break;
-
-                case R.id.delete_button:
-
-                    if (isUserEditPermission()) {
-                        deleteNews();
-                    } else {
-                        Toast.makeText(context, R.string.delete_access_denied, Toast.LENGTH_SHORT).show();
-                    }
-
-                    break;*/
-
             }
         }
 

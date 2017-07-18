@@ -18,10 +18,13 @@ public class News extends RealmObject
     private String author;
     private String title;
     private String content;
+    private String date;
 
     public String getId() {
         return id;
     }
+
+
 
     public String getAuthor() {
         return author;
@@ -33,6 +36,9 @@ public class News extends RealmObject
 
     public String getContent() {
         return content;
+    }
+    public String getDate() {
+        return date;
     }
 
     public News(String author, String title, String content) {
@@ -54,6 +60,7 @@ public class News extends RealmObject
                 ", author='" + author + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", date='" + date + '\'' +
                 '}';
     }
 }
