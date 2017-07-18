@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,10 +62,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
         return newsList.size();
     }
 
-    class MyViewHoled extends RecyclerView.ViewHolder {
+    class MyViewHoled extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView textViewTitle, textViewDesc;
-        private LinearLayout linearLayout;
         private EditText editTextTitle, editTextContent;
         private AlertDialog dialog;
         List<Comment> commentList = new ArrayList<>();
@@ -76,18 +74,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             super(itemView);
             textViewTitle = (TextView) itemView.findViewById(R.id.rv_text_view);
             textViewDesc = (TextView) itemView.findViewById(R.id.rv_tv_desc);
-            linearLayout = (LinearLayout) itemView.findViewById(R.id.row_linear_layout);
-
-            linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.i("NewsAdapter","ll clicked");
-                }
-            });
+            textViewTitle.setOnClickListener(this);
+            textViewDesc.setOnClickListener(this);
         }
 
-
-        /*private void showNewsDialog() {
+        private void showNewsDialog() {
 
 
             Intent intent = new Intent(context, NewsActivity.class);
@@ -143,41 +134,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
             switch (view.getId()) {
 
-                *//*case R.id.rv_text_view:
+                case R.id.rv_text_view:
                     showNewsDialog();
                     break;
 
                 case R.id.rv_tv_desc:
                     showNewsDialog();
                     break;
-
-                case R.id.update_delete_title:
-                    editTextTitle.setCursorVisible(true);
-                    break;
-
-                case R.id.update_delete_content:
-                    editTextContent.setCursorVisible(true);
-                    break;
-
-                case R.id.update_button:
-
-                    if (isUserEditPermission()) {
-                        updateNews();
-                    } else {
-                        Toast.makeText(context, R.string.update_access_denied, Toast.LENGTH_SHORT).show();
-                    }
-
-                    break;
-
-                case R.id.delete_button:
-
-                    if (isUserEditPermission()) {
-                        deleteNews();
-                    } else {
-                        Toast.makeText(context, R.string.delete_access_denied, Toast.LENGTH_SHORT).show();
-                    }
-
-                    break;*//*
 
             }
         }
@@ -274,7 +237,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
                     }
                 });
             }
-        }*/
+        }
 
         /*private boolean isUserEditPermission() {
             String selectedNewsUserId = newsList.get(getAdapterPosition()).getAuthor().trim();
