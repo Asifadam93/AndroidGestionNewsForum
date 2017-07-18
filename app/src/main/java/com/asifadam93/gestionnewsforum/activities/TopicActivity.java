@@ -107,7 +107,7 @@ public class TopicActivity extends AppCompatActivity {
 
         if (token != null) {
 
-            String url = "/pots?criteria={\"offset\":0,\"where\":{\"topic\":\""+postId+"\"}}";
+            String url = "/posts?criteria={\"offset\":0,\"where\":{\"topic\":\""+postId+"\"}}";
 
             Log.i("NewsAdapter","Url : "+url);
 
