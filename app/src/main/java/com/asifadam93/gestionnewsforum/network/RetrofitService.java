@@ -4,6 +4,7 @@ import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.Util.Const;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
+import com.asifadam93.gestionnewsforum.model.Post;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.model.User;
@@ -335,18 +336,95 @@ public class RetrofitService implements IService {
     }
 
     @Override
-    public void createComment(String token, Map<String, String> commentMap, IServiceResultListener<String> resultListener) {
+    public void createComment(String token, Map<String, String> commentMap, final IServiceResultListener<String> resultListener) {
+
+        getService().createComment(token, commentMap).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> serviceResult = new ServiceResult<>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData("Comment created");
+                } else {
+                    serviceResult.setErrorMsg("Error : Creating comment");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
 
     }
 
     @Override
-    public void updateComment(String token, String commentId, Map<String, String> commentMap, IServiceResultListener<String> resultListener) {
+    public void updateComment(String token, String commentId, Map<String, String> commentMap, final IServiceResultListener<String> resultListener) {
+
+        getService().updateComment(token, commentId, commentMap).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> serviceResult = new ServiceResult<>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData("Comment updated");
+                } else {
+                    serviceResult.setErrorMsg("Error : Updating comment");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
 
     }
 
     @Override
-    public void deleteComment(String token, String commentId, IServiceResultListener<String> resultListener) {
+    public void deleteComment(String token, String commentId, final IServiceResultListener<String> resultListener) {
 
+        getService().deleteComment(token, commentId).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> serviceResult = new ServiceResult<>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData("Comment deleted");
+                } else {
+                    serviceResult.setErrorMsg("Error : Deleting comment");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
     }
 
     /**
@@ -384,18 +462,91 @@ public class RetrofitService implements IService {
     }
 
     @Override
-    public void createTopic(String token, Map<String, String> topicMap, IServiceResultListener<String> result) {
+    public void createTopic(String token, Map<String, String> topicMap, final IServiceResultListener<String> result) {
+
+        getService().createTopic(token, topicMap).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> serviceResult = new ServiceResult<String>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData("Topic created");
+                } else {
+                    serviceResult.setErrorMsg("Error : Creating topic");
+                }
+
+                if (result != null) {
+                    result.onResult(serviceResult);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (result != null) {
+                    result.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
 
     }
 
     @Override
-    public void updateTopic(String token, String topicId, Map<String, String> topicMap, IServiceResultListener<String> resultListener) {
+    public void updateTopic(String token, String topicId, Map<String, String> topicMap, final IServiceResultListener<String> resultListener) {
 
+        getService().updateTopic(token, topicId, topicMap).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> serviceResult = new ServiceResult<String>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData("Topic updated");
+                } else {
+                    serviceResult.setErrorMsg("Error : Updating topic");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
     }
 
     @Override
-    public void deleteTopic(String token, String topicId, IServiceResultListener<String> resultListener) {
+    public void deleteTopic(String token, String topicId, final IServiceResultListener<String> resultListener) {
 
+        getService().deleteTopic(token, topicId).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> serviceResult = new ServiceResult<String>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData("Topic deleted");
+                } else {
+                    serviceResult.setErrorMsg("Error : Deleting topic");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
     }
 
     /**
@@ -403,23 +554,123 @@ public class RetrofitService implements IService {
      */
 
     @Override
-    public void getPost(String token, String postUrl, IServiceResultListener<List<Comment>> resultListener) {
+    public void getPost(String token, String postUrl, final IServiceResultListener<List<Post>> resultListener) {
+
+        getService().getPosts(token, postUrl).enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+
+                ServiceResult<List<Post>> serviceResult = new ServiceResult<List<Post>>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData(response.body());
+                } else {
+                    serviceResult.setErrorMsg("Retrieving post error");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<List<Post>>(t.getMessage()));
+                }
+            }
+        });
 
     }
 
     @Override
-    public void createPost(String token, Map<String, String> postMap, IServiceResultListener<String> resultListener) {
+    public void createPost(String token, Map<String, String> postMap, final IServiceResultListener<String> resultListener) {
+
+        getService().createPost(token, postMap).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> serviceResult = new ServiceResult<String>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData("Post created");
+                } else {
+                    serviceResult.setErrorMsg("Error : Creating post");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void updatePost(String token, String postId, Map<String, String> postMap, final IServiceResultListener<String> resultListener) {
+
+        getService().updatePost(token, postId, postMap).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                ServiceResult<String> serviceResult = new ServiceResult<String>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData("Post updated");
+                } else {
+                    serviceResult.setErrorMsg("Error : Updating post");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
 
     }
 
     @Override
-    public void updatePost(String token, String postId, Map<String, String> postMap, IServiceResultListener<String> resultListener) {
+    public void deletePost(String token, String postId, final IServiceResultListener<String> resultListener) {
 
-    }
+        getService().deletePost(token, postId).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-    @Override
-    public void deletePost(String token, String postId, IServiceResultListener<String> resultListener) {
+                ServiceResult<String> serviceResult = new ServiceResult<String>();
 
+                if (response.isSuccessful()) {
+                    serviceResult.setData("Post deleted");
+                } else {
+                    serviceResult.setErrorMsg("Error : Deleting post");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<String>(t.getMessage()));
+                }
+            }
+        });
     }
 
 

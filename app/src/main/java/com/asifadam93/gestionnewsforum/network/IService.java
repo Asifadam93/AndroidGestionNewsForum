@@ -2,6 +2,7 @@ package com.asifadam93.gestionnewsforum.network;
 
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
+import com.asifadam93.gestionnewsforum.model.Post;
 import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.model.User;
 
@@ -66,7 +67,7 @@ public interface IService {
      * Comment
      */
 
-    void getPost(String token, String postUrl, IServiceResultListener<List<Comment>> resultListener);
+    void getPost(String token, String postUrl, IServiceResultListener<List<Post>> resultListener);
 
     void createPost(String token, Map<String, String> postMap, IServiceResultListener<String> resultListener);
 
