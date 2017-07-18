@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.realm.Realm;
+
 
 /**
  * Created by Asifadam93 on 12/07/2017.
@@ -40,6 +42,8 @@ public class NewsFragment extends Fragment {
     private AlertDialog dialog;
     private NewsAdapter newsAdapter;
     private List<News> news;
+    final Realm realm = Realm.getDefaultInstance();
+
 
     @Nullable
     @Override
@@ -75,9 +79,39 @@ public class NewsFragment extends Fragment {
                 @Override
                 public void onResult(ServiceResult<List<News>> result) {
 
-                    List<News> newsList = result.getData();
+                    final List<News> newsList = result.getData();
 
                     if (newsList != null) {
+
+                        //sauvegarde des news récupées en Async (pour ne pas ralentir l'UI)
+                        realm.executeTransactionAsync(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                for (News news : newsList) {
+                                    Log.i("AJOUT ", news.toString());
+                                    realm.copyToRealmOrUpdate(news);
+                                }
+                            }
+                        }, new Realm.Transaction.OnSuccess() {
+
+                            @Override
+                            public void onSuccess() {
+                                Log.i("Realm", "It's working");
+                                Toast.makeText(getActivity(), "URL enregistrée", Toast.LENGTH_LONG).show();
+
+                            }
+                        }, new Realm.Transaction.OnError() {
+
+                            @Override
+                            public void onError(Throwable error) {
+                                Log.e("Realm", "It's a bug");
+                                Toast.makeText(getActivity(), "Erreur lors de l'enregitrement", Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+
+
+
                         setNews(newsList);
                     } else {
                         Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
@@ -158,6 +192,7 @@ public class NewsFragment extends Fragment {
             getActivity().finish();
         }
     }
+
 
     public List<News> getNews() {
 
