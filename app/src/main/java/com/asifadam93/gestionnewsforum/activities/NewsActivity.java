@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -55,7 +56,8 @@ public class NewsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
         newsTextView.setText(content);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.dialog_rview);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.comments);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         commentAdapter = new CommentAdapter(this, commentList);
         recyclerView.setAdapter(commentAdapter);
 
@@ -108,7 +110,12 @@ public class NewsActivity extends AppCompatActivity {
 
                     List<Comment> commentListTmp = result.getData();
 
+
+
                     if (commentListTmp != null) {
+                        for (Comment comment : commentListTmp) {
+                            Log.i("NewsActivity", comment.toString());
+                        }
                         commentList.clear();
                         commentList.addAll(commentListTmp);
                         commentAdapter.notifyDataSetChanged();
