@@ -32,6 +32,9 @@ public class RetrofitService implements IService {
         return retrofitService;
     }
 
+    /**
+     * Auth
+     */
 
     @Override
     public void login(Map<String, String> loginMap, final IServiceResultListener<String> resultListener) {
@@ -167,6 +170,10 @@ public class RetrofitService implements IService {
 
     }
 
+    /**
+     * News
+     */
+
     @Override
     public void createNews(String token, Map<String, String> newsMap, final IServiceResultListener<String> resultListener) {
 
@@ -292,6 +299,60 @@ public class RetrofitService implements IService {
 
     }
 
+    /**
+     * Comment
+     */
+
+    @Override
+    public void getComments(String token, String url, final IServiceResultListener<List<Comment>> resultListener) {
+
+        getService().getComments(token, url).enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+
+                ServiceResult<List<Comment>> serviceResult = new ServiceResult<>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData(response.body());
+                } else {
+                    serviceResult.setErrorMsg("Error : Retrieving comments");
+                }
+
+                if (resultListener != null) {
+                    resultListener.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                if (resultListener != null) {
+                    resultListener.onResult(new ServiceResult<List<Comment>>(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void createComment(String token, Map<String, String> commentMap, IServiceResultListener<String> resultListener) {
+
+    }
+
+    @Override
+    public void updateComment(String token, String commentId, Map<String, String> commentMap, IServiceResultListener<String> resultListener) {
+
+    }
+
+    @Override
+    public void deleteComment(String token, String commentId, IServiceResultListener<String> resultListener) {
+
+    }
+
+    /**
+     * Topic
+     */
+
     @Override
     public void getTopicList(String token, final IServiceResultListener<List<Topic>> result) {
 
@@ -323,35 +384,44 @@ public class RetrofitService implements IService {
     }
 
     @Override
-    public void getComments(String token, String url, final IServiceResultListener<List<Comment>> resultListener) {
-
-        getService().getComments(token,url).enqueue(new Callback<List<Comment>>() {
-            @Override
-            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
-
-                ServiceResult<List<Comment>> serviceResult = new ServiceResult<>();
-
-                if (response.isSuccessful()) {
-                    serviceResult.setData(response.body());
-                } else {
-                    serviceResult.setErrorMsg("Error : Retrieving comments");
-                }
-
-                if (resultListener != null) {
-                    resultListener.onResult(serviceResult);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Comment>> call, Throwable t) {
-                if (resultListener != null) {
-                    resultListener.onResult(new ServiceResult<List<Comment>>(t.getMessage()));
-                }
-            }
-        });
+    public void createTopic(String token, Map<String, String> topicMap, IServiceResultListener<String> result) {
 
     }
+
+    @Override
+    public void updateTopic(String token, String topicId, Map<String, String> topicMap, IServiceResultListener<String> resultListener) {
+
+    }
+
+    @Override
+    public void deleteTopic(String token, String topicId, IServiceResultListener<String> resultListener) {
+
+    }
+
+    /**
+     * Topic
+     */
+
+    @Override
+    public void getPost(String token, String postUrl, IServiceResultListener<List<Comment>> resultListener) {
+
+    }
+
+    @Override
+    public void createPost(String token, Map<String, String> postMap, IServiceResultListener<String> resultListener) {
+
+    }
+
+    @Override
+    public void updatePost(String token, String postId, Map<String, String> postMap, IServiceResultListener<String> resultListener) {
+
+    }
+
+    @Override
+    public void deletePost(String token, String postId, IServiceResultListener<String> resultListener) {
+
+    }
+
 
     private IRetrofitService getService() {
 

@@ -2,10 +2,10 @@ package com.asifadam93.gestionnewsforum.network;
 
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
+import com.asifadam93.gestionnewsforum.model.Post;
 import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.model.User;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +19,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 /**
@@ -27,6 +26,10 @@ import retrofit2.http.Url;
  */
 
 public interface IRetrofitService {
+
+    /**
+     * Auth
+     */
 
     @Headers("Content-Type: application/json")
     @POST("/auth/login")
@@ -43,6 +46,10 @@ public interface IRetrofitService {
             @Header("Authorization") String token,
             @Body Map<String, String> updateMap
     );
+
+    /**
+     * News
+     */
 
     @GET("/news")
     Call<List<News>> getNews(@Header("Authorization") String token);
@@ -66,13 +73,88 @@ public interface IRetrofitService {
             @Path("news_id") String newsId
     );
 
-    @GET("/topics")
-    Call<List<Topic>> getTopics(@Header("Authorization") String token);
+    /**
+     * Comment
+     */
 
     @GET
     Call<List<Comment>> getComments(
             @Header("Authorization") String token,
             @Url String url
+    );
+
+    @POST("/comments")
+    Call<ResponseBody> createComment(
+            @Header("Authorization") String token,
+            @Body Map<String, String> commentMap
+    );
+
+    @PUT("/comments/{comment_id}")
+    Call<ResponseBody> updateComment(
+            @Header("Authorization") String token,
+            @Path("comment_id") String commentId,
+            @Body Map<String, String> commentMap
+    );
+
+    @DELETE("/comments/{comment_id}")
+    Call<ResponseBody> deleteComment(
+            @Header("Authorization") String token,
+            @Path("comment_id") String commentId
+    );
+
+    /**
+     * Topic
+     */
+
+    @GET("/topics")
+    Call<List<Topic>> getTopics(@Header("Authorization") String token);
+
+    @POST("/topics")
+    Call<ResponseBody> createTopic(
+            @Header("Authorization") String token,
+            @Body Map<String, String> topicMap
+    );
+
+    @PUT("/topics/{topic_id}")
+    Call<ResponseBody> updateTopic(
+            @Header("Authorization") String token,
+            @Path("topic_id") String topicId,
+            @Body Map<String, String> topicMap
+    );
+
+    @DELETE("/topics/{topic_id}")
+    Call<ResponseBody> deleteTopic(
+            @Header("Authorization") String token,
+            @Path("topic_id") String topicId
+    );
+
+    /**
+     * Post
+     */
+
+    @GET
+    Call<List<Post>> getPosts(
+            @Header("Authorization") String token,
+            @Url String url
+    );
+
+    @POST("/posts")
+    Call<ResponseBody> createPost(
+            @Header("Authorization") String token,
+            @Body Map<String, String> commentMap
+    );
+
+    @PUT("/posts/{post_id}")
+    Call<ResponseBody> updatePost(
+            @Header("Authorization") String token,
+            @Path("post_id") String postId,
+            @Body Map<String, String> postMap
+    );
+
+    @DELETE("/posts/{post_id}")
+    Call<ResponseBody> deletePost(
+            @Header("Authorization") String token,
+            @Path("comment_id") String postId
     );
 
 }

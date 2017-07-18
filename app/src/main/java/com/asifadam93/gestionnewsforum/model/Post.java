@@ -6,15 +6,15 @@ import com.google.gson.annotations.SerializedName;
  * Created by Asifadam93 on 16/07/2017.
  */
 
-public class Comment {
+public class Post {
 
     @SerializedName("_id")
     private String id;
 
-    @SerializedName("news")
-    private String newsId;
+    @SerializedName("topic")
+    private String topicId;
 
-    private String author, title, content;
+    private String author, title, content, date;
 
     public String getId() {
         return id;
@@ -32,7 +32,11 @@ public class Comment {
         return content;
     }
 
-    public String getNewsId() {
-        return newsId;
+    public String getTopicId() {
+        return topicId;
+    }
+
+    public String getDate() {
+        return date;
     }
 }
