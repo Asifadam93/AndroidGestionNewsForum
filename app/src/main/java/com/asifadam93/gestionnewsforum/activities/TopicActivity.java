@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,12 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
-import com.asifadam93.gestionnewsforum.adapter.CommentAdapter;
 import com.asifadam93.gestionnewsforum.adapter.PostAdapter;
 import com.asifadam93.gestionnewsforum.data.IServiceProvider;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
-import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.Post;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.model.Topic;
@@ -58,9 +55,9 @@ public class TopicActivity extends AppCompatActivity {
         }
 
 
-        TextView newsTextView       =  (TextView) findViewById(R.id.news_content);
-        FloatingActionButton fab    = (FloatingActionButton) findViewById(R.id.add_comment);
-        Toolbar toolbar             = (Toolbar) findViewById(R.id.toolbar);
+        TextView newsTextView = (TextView) findViewById(R.id.news_content);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_comment);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -83,7 +80,7 @@ public class TopicActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /*Snackbar.make(view, "Asif à toi de jouer :)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                showAddCommentDialog();
+                showAddPostDialog();
             }
         });
 
@@ -104,21 +101,119 @@ public class TopicActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_modifier) {
-            return true;
-        }
+        if (Const.hasPermissionToEdit(clickedTopic.getAuthor())) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_supprimer) {
-            return true;
+            int id = item.getItemId();
+
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_modifier) {
+                showUpdateTopicDialog();
+                return true;
+            }
+
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_supprimer) {
+                deleteTopic();
+                return true;
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.edit_access_denied), Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void showUpdateTopicDialog() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View mView = getLayoutInflater().inflate(R.layout.dialog_add, null);
+
+        TextView textViewTitle = (TextView) mView.findViewById(R.id.add_welcome_title);
+        final EditText editTextTitle = (EditText) mView.findViewById(R.id.add_title);
+        final EditText editTextContent = (EditText) mView.findViewById(R.id.add_content);
+        Button buttonSave = (Button) mView.findViewById(R.id.module_button_save);
+
+        //change welcome title
+        textViewTitle.setText(R.string.welcome_update_news);
+        editTextTitle.setText(clickedTopic.getTitle());
+        editTextContent.setText(clickedTopic.getContent());
+        buttonSave.setText(getString(R.string.update));
+
+        builder.setView(mView);
+        dialog = builder.create();
+        dialog.show();
+
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String title = editTextTitle.getText().toString();
+                String content = editTextContent.getText().toString();
+
+                if (title.isEmpty()) {
+                    editTextTitle.setError(getString(R.string.empty_field));
+                    return;
+                }
+
+                if (content.isEmpty()) {
+                    editTextContent.setError(getString(R.string.empty_field));
+                    return;
+                }
+
+                Map<String, String> updateTopicMap = new HashMap<>();
+                updateTopicMap.put("title", title);
+                updateTopicMap.put("content", content);
+                updateTopic(updateTopicMap);
+            }
+        });
+    }
+
+    private void updateTopic(Map<String,String> updateMap) {
+
+        String token = Const.getToken();
+
+        if (token != null) {
+
+            IServiceProvider.getService(this).updateTopic(token, clickedTopic.getId(), updateMap, new IServiceResultListener<String>() {
+                @Override
+                public void onResult(ServiceResult<String> result) {
+
+                    String response = result.getData();
+
+                    if (response != null) {
+                        Toast.makeText(getBaseContext(), response, Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(getBaseContext(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private void deleteTopic() {
+
+        String token = Const.getToken();
+
+        if (token != null) {
+
+            IServiceProvider.getService(this).deleteTopic(token, clickedTopic.getId(), new IServiceResultListener<String>() {
+                @Override
+                public void onResult(ServiceResult<String> result) {
+
+                    String response = result.getData();
+
+                    if (response != null) {
+                        Toast.makeText(getBaseContext(), response, Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(getBaseContext(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
 
     private void getPosts() {
 
@@ -126,9 +221,9 @@ public class TopicActivity extends AppCompatActivity {
 
         if (token != null) {
 
-            String url = "/posts?criteria={\"offset\":0,\"where\":{\"topic\":\""+clickedTopic.getId()+"\"}}";
+            String url = "/posts?criteria={\"offset\":0,\"where\":{\"topic\":\"" + clickedTopic.getId() + "\"}}";
 
-            Log.i("NewsAdapter","Url : "+url);
+            Log.i("NewsAdapter", "Url : " + url);
 
             RetrofitService.getInstance().getPost(token, url, new IServiceResultListener<List<Post>>() {
                 @Override
@@ -145,14 +240,14 @@ public class TopicActivity extends AppCompatActivity {
                         postAdapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(getBaseContext(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                        Log.i("NewsAdapter",  result.getErrorMsg());
+                        Log.i("NewsAdapter", result.getErrorMsg());
                     }
                 }
             });
         }
     }
 
-    private void showAddCommentDialog() {
+    private void showAddPostDialog() {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final View mView = getLayoutInflater().inflate(R.layout.dialog_add, null);

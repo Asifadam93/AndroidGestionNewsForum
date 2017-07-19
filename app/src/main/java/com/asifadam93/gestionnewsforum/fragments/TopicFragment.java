@@ -65,9 +65,13 @@ public class TopicFragment extends Fragment {
             }
         });
 
-        getTopicList();
-
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getTopicList();
     }
 
     private void showAddDialog() {

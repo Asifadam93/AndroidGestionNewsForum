@@ -72,111 +72,11 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.MyViewHoled>
         }
 
         private void showTopicActivity() {
-
             Intent intent = new Intent(context, TopicActivity.class);
             intent.putExtra(TopicActivity.TOPIC_CONTENT, topicList.get(getAdapterPosition())); // Parcelable
             context.startActivity(intent);
-
         }
 
-
-        /*@Override
-        public void onClick(View view) {
-            showTopicActivity();
-        }
-
-        private void updateTopic() {
-
-            String title = editTextTitle.getText().toString();
-            String content = editTextContent.getText().toString();
-
-            if (title.isEmpty()) {
-                editTextTitle.setError(context.getString(R.string.empty_field));
-                return;
-            }
-
-            if (content.isEmpty()) {
-                editTextTitle.setError(context.getString(R.string.empty_field));
-                return;
-            }
-
-            Map<String, String> updateMap = new HashMap<>();
-            updateMap.put("title", title);
-            updateMap.put("content", content);
-
-            String token = Const.getToken();
-
-            if (token != null) {
-
-                String topicId = topicList.get(getAdapterPosition()).getId();
-
-                RetrofitService.getInstance().updateTopic(token, topicId, updateMap, new IServiceResultListener<String>() {
-                    @Override
-                    public void onResult(ServiceResult<String> result) {
-
-                        String response = result.getData();
-
-                        if (response != null) {
-                            Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
-                            refreshTopicList();
-                        } else {
-                            Toast.makeText(context, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        }
-
-        private void deleteTopic() {
-
-            String token = Const.getToken();
-
-            if (token != null) {
-
-                String topicId = topicList.get(getAdapterPosition()).getId();
-
-                RetrofitService.getInstance().deleteTopic(token, topicId, new IServiceResultListener<String>() {
-                    @Override
-                    public void onResult(ServiceResult<String> result) {
-
-                        String response = result.getData();
-
-                        if (response != null) {
-                            Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
-                            refreshTopicList();
-                        } else {
-                            Toast.makeText(context, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-
-            }
-        }
-
-        private void refreshTopicList() {
-
-            String token = Const.getToken();
-
-            if (token != null) {
-
-                RetrofitService.getInstance().getTopicList(token, new IServiceResultListener<List<Topic>>() {
-                    @Override
-                    public void onResult(ServiceResult<List<Topic>> result) {
-
-                        List<Topic> topicListTmp = result.getData();
-
-                        if (topicListTmp != null) {
-                            topicList.clear();
-                            topicList.addAll(topicListTmp);
-                            notifyDataSetChanged();
-                            dialog.cancel();
-                        } else {
-                            Toast.makeText(context, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        }*/
+        
     }
 }
