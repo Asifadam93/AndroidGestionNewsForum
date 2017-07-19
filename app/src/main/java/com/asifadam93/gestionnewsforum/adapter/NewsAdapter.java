@@ -8,27 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import android.widget.LinearLayout;
-
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.activities.NewsActivity;
-import com.asifadam93.gestionnewsforum.activities.NewsActivity;
-import com.asifadam93.gestionnewsforum.model.News;
-import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
-import com.asifadam93.gestionnewsforum.model.ServiceResult;
-import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
-import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Asifadam93 on 15/07/2017.
@@ -90,13 +79,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
 
             Intent intent = new Intent(context, NewsActivity.class);
-            intent.putExtra(NewsActivity.NEWS_CONTENT,newsList.get(getAdapterPosition())); // Parcelable
+            intent.putExtra(NewsActivity.NEWS_CONTENT, newsList.get(getAdapterPosition())); // Parcelable
             context.startActivity(intent);
             /*intent.putExtra(NewsActivity.NEWS_CONTENT, clickedNews.getContent());
             intent.putExtra(NewsActivity.NEWS_TITLE, clickedNews.getTitle());
             intent.putExtra(NewsActivity.NEWS_ID, clickedNews.getId());*/
 
         }
+    }
+}
 
 
        /* private void updateNews() {
@@ -140,57 +131,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
                 });
             }
         }
-
-        private void deleteNews() {
-
-            String token = Const.getToken();
-
-            if (token != null) {
-
-                String newsId = newsList.get(getAdapterPosition()).getId();
-
-                RetrofitService.getInstance().deleteNews(token, newsId, new IServiceResultListener<String>() {
-                    @Override
-                    public void onResult(ServiceResult<String> result) {
-
-                        String response = result.getData();
-
-                        if (response != null) {
-                            Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
-                            refreshNewsList();
-                        } else {
-                            Toast.makeText(context, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-
-            }
-        }
-
-        private void refreshNewsList() {
-
-            String token = Const.getToken();
-
-            if (token != null) {
-
-                RetrofitService.getInstance().getNewsList(token, new IServiceResultListener<List<News>>() {
-                    @Override
-                    public void onResult(ServiceResult<List<News>> result) {
-
-                        List<News> newsListTmp = result.getData();
-
-                        if (newsListTmp != null) {
-                            newsList.clear();
-                            newsList.addAll(newsListTmp);
-                            notifyDataSetChanged();
-                            dialog.cancel();
-                        } else {
-                            Toast.makeText(context, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        }*/
     }
-}
+}*/

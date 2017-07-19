@@ -66,9 +66,13 @@ public class NewsFragment extends Fragment {
             }
         });
 
-        getNewsList();
-
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNewsList();
     }
 
     private void getNewsList() {
@@ -83,9 +87,10 @@ public class NewsFragment extends Fragment {
                 public void onResult(ServiceResult<List<News>> result) {
 
                     final List<News> newsList = result.getData();
-
+                    
                     if (newsList != null) {
                         setNews(newsList);
+
                     } else {
                         Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
                     }
