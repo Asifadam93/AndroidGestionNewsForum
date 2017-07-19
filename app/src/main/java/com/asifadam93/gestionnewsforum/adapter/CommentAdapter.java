@@ -153,7 +153,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
                             }
                         });
             }
-
         }
 
         private void deleteComment() {

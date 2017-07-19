@@ -76,7 +76,5 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.MyViewHoled>
             intent.putExtra(TopicActivity.TOPIC_CONTENT, topicList.get(getAdapterPosition())); // Parcelable
             context.startActivity(intent);
         }
-
-        
     }
 }

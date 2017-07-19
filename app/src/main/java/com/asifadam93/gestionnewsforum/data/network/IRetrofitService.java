@@ -154,7 +154,7 @@ public interface IRetrofitService {
     @DELETE("/posts/{post_id}")
     Call<ResponseBody> deletePost(
             @Header("Authorization") String token,
-            @Path("comment_id") String postId
+            @Path("post_id") String postId
     );
 
 }

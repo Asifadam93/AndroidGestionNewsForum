@@ -141,6 +141,7 @@
     <string name="error_data">Error retrieving news data</string>
     <string name="welcome_update_news">Update news</string>
     <string name="welcome_edit_comment">Edit comment</string>
+    <string name="welcome_edit_post">Edit post</string>
     <string name="add_topic">Add a topic</string>
     <string name="add_post">Add a post</string>
 </resources>
