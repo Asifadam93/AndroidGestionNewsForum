@@ -61,7 +61,11 @@ public class TopicFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAddDialog();
+                if(Const.isInternetAvailable(getContext())) {
+                    showAddDialog();
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.internet_not_available), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

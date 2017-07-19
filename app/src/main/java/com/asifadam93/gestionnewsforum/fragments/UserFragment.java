@@ -64,7 +64,11 @@ public class UserFragment extends Fragment {
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateUser();
+                if (Const.isInternetAvailable(getContext())) {
+                    updateUser();
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.internet_not_available), Toast.LENGTH_SHORT).show();
+                }
             }
         });
         buttonSigOut.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +118,7 @@ public class UserFragment extends Fragment {
                 public void onResult(ServiceResult<String> result) {
 
                     if (result != null) {
-                        Toast.makeText(getActivity(),firstName + " profile updated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), firstName + " profile updated", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
                     }

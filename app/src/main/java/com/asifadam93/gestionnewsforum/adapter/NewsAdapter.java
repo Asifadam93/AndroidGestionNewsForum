@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.activities.NewsActivity;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
+import com.asifadam93.gestionnewsforum.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,10 +78,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
         }
 
         private void showNewsActivity() {
-            Intent intent = new Intent(context, NewsActivity.class);
-            intent.putExtra(NewsActivity.NEWS_CONTENT, newsList.get(getAdapterPosition())); // Parcelable
-            context.startActivity(intent);
-
+            if(Const.isInternetAvailable(context)) {
+                Intent intent = new Intent(context, NewsActivity.class);
+                intent.putExtra(NewsActivity.NEWS_CONTENT, newsList.get(getAdapterPosition())); // Parcelable
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context, context.getString(R.string.internet_not_available), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
