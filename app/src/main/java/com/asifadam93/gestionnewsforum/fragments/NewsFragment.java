@@ -80,8 +80,6 @@ public class NewsFragment extends Fragment {
         String token = Const.getToken();
 
         if (token != null) {
-
-
             IServiceProvider.getService(getContext()).getNewsList(token, new IServiceResultListener<List<News>>() {
                 @Override
                 public void onResult(ServiceResult<List<News>> result) {
