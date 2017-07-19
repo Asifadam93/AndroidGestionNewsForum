@@ -16,13 +16,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
+import com.asifadam93.gestionnewsforum.activities.MainActivity;
 import com.asifadam93.gestionnewsforum.adapter.NewsAdapter;
+import com.asifadam93.gestionnewsforum.data.IService;
 import com.asifadam93.gestionnewsforum.data.IServiceProvider;
 import com.asifadam93.gestionnewsforum.data.local.RealmService;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
+import com.asifadam93.gestionnewsforum.model.User;
 import com.asifadam93.gestionnewsforum.util.Const;
 
 import java.util.ArrayList;
@@ -42,8 +45,8 @@ public class NewsFragment extends Fragment {
     private RetrofitService retrofitService;
     private RecyclerView recyclerView;
     private AlertDialog dialog;
-    private NewsAdapter newsAdapter;
-    private List<News> news;
+    public NewsAdapter newsAdapter;
+    public List<News> news = new ArrayList<>();
     final Realm realm = Realm.getDefaultInstance();
 
 
@@ -84,12 +87,13 @@ public class NewsFragment extends Fragment {
         String token = Const.getToken();
 
         if (token != null) {
+
             IServiceProvider.getService(getContext()).getNewsList(token, new IServiceResultListener<List<News>>() {
                 @Override
                 public void onResult(ServiceResult<List<News>> result) {
 
                     final List<News> newsList = result.getData();
-                    
+
                     if (newsList != null) {
                         setNews(newsList);
 
@@ -177,16 +181,27 @@ public class NewsFragment extends Fragment {
 
     public List<News> getNews() {
 
-        if(news == null){
-            news = new ArrayList<>();
-        }
-
         return news;
     }
 
     public void setNews(List<News> news) {
-        Log.i("NewsFragment",news.toString());
+        this.news.clear();
         this.news.addAll(news);
+        updateAdapter();
+    }
+
+    public void updateAdapter() {
+        if (!MainActivity.utilisateurs.isEmpty()) {
+
+            for (News aNews : newsAdapter.newsList ) {
+                Log.i("News User ", MainActivity.utilisateurs.get(aNews.getAuthor()).toString());
+                aNews.setRealUser(MainActivity.utilisateurs.get(aNews.getAuthor()));
+            }
+
+        }
         newsAdapter.notifyDataSetChanged();
     }
+
+
+
 }

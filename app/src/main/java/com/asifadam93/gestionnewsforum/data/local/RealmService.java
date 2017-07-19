@@ -54,6 +54,24 @@ public class RealmService implements IService {
     }
 
     @Override
+    public void getUsersList(String token, IServiceResultListener<List<User>> result) {
+        List<User> listeUsers = new ArrayList<User>();
+
+        final Realm realm = Realm.getDefaultInstance();
+        RealmResults<User> users = realm.where(User.class).findAll();
+
+
+        listeUsers.addAll(users);
+
+        ServiceResult<List<User>> resultTempo =  new ServiceResult<List<User>>();
+
+        resultTempo.setData(listeUsers);
+
+        result.onResult(resultTempo);
+    }
+
+
+    @Override
     public void createNews(String token, Map<String, String> newsMap, IServiceResultListener<String> result) {
 
     }
@@ -61,7 +79,6 @@ public class RealmService implements IService {
     @Override
     public void getNewsList(String token, IServiceResultListener<List<News>> result)
     {
-
         List<News> listeNews = new ArrayList<News>();
 
         final Realm realm = Realm.getDefaultInstance();

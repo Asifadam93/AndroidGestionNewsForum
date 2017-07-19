@@ -47,6 +47,13 @@ public interface IRetrofitService {
             @Body Map<String, String> updateMap
     );
 
+
+    /**
+     * Users
+     */
+    @GET("/users")
+    Call<List<User>> getUsers(@Header("Authorization") String token);
+
     /**
      * News
      */

@@ -22,6 +22,7 @@ public class News extends RealmObject implements Parcelable
     private String title;
     private String content;
     private String date;
+    private User realUser;
 
     protected News(Parcel in) {
         id = in.readString();
@@ -97,5 +98,13 @@ public class News extends RealmObject implements Parcelable
         parcel.writeString(title);
         parcel.writeString(content);
         parcel.writeString(date);
+    }
+
+    public User getRealUser() {
+        return realUser;
+    }
+
+    public void setRealUser(User realUser) {
+        this.realUser = realUser;
     }
 }

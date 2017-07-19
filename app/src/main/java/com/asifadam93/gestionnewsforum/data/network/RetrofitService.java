@@ -1,13 +1,8 @@
 package com.asifadam93.gestionnewsforum.data.network;
 
 import android.util.Log;
-import android.widget.Toast;
-
-import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.data.IService;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
-import com.asifadam93.gestionnewsforum.data.local.RealmService;
-import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.Post;
@@ -148,6 +143,63 @@ public class RetrofitService implements IService {
         });
 
     }
+
+
+    @Override
+    public void getUsersList(String token, final IServiceResultListener<List<User>> result) {
+
+
+        getService().getUsers(token).enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+
+                final ServiceResult<List<User>> serviceResult = new ServiceResult<List<User>>();
+
+                if (response.isSuccessful()) {
+                    serviceResult.setData(response.body());
+                } else {
+                    serviceResult.setErrorMsg("Error on getting news list");
+                }
+
+                if (result != null) {
+                    //sauvegarde des news récupées en Async (pour ne pas ralentir l'UI)
+                    realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            for (User user : serviceResult.getData()) {
+                                Log.i("AJOUT U", user.toString());
+                                realm.copyToRealmOrUpdate(user);
+                            }
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
+
+                        @Override
+                        public void onSuccess() {
+                            Log.i("getUserList", "Enregistrement des news : OK");
+
+                        }
+                    }, new Realm.Transaction.OnError() {
+
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.e("getUserList", "Enregistrement des news : KO");
+                        }
+                    });
+
+                    result.onResult(serviceResult);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                if (result != null) {
+                    result.onResult(new ServiceResult<List<User>>(t.getMessage()));
+                }
+            }
+        });
+    }
+
 
     @Override
     public void updateUser(String token, Map<String, String> updateMap, final IServiceResultListener<String> resultListener) {

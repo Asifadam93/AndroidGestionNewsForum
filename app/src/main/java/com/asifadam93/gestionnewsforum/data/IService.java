@@ -28,6 +28,11 @@ public interface IService {
     void updateUser(String token, Map<String, String> updateMap, IServiceResultListener<String> result);
 
     /**
+     * User
+     */
+    void getUsersList(String token, IServiceResultListener<List<User>> result);
+
+    /**
      * News
      */
 
