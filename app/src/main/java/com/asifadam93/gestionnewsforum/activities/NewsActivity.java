@@ -2,7 +2,6 @@ package com.asifadam93.gestionnewsforum.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -56,9 +55,9 @@ public class NewsActivity extends AppCompatActivity {
 
         clickededNews = getIntent().getParcelableExtra(NEWS_CONTENT);
 
-        if(clickededNews == null){
+        if (clickededNews == null) {
             finish();
-            Toast.makeText(this, R.string.error_data,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_data, Toast.LENGTH_SHORT).show();
         }
 
         TextView newsTextView = (TextView) findViewById(R.id.news_content);
@@ -100,22 +99,24 @@ public class NewsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_modifier) {
+        if (Const.hasPermissionToEdit(clickededNews.getAuthor())) {
 
-            if(Const.hasPermissionToEdit(clickededNews.getAuthor()))
+            int id = item.getItemId();
 
-            return true;
-        }
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_modifier) {
+                showUpdateNewsDialog();
+                return true;
+            }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_supprimer) {
-
-
-
-            return true;
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_supprimer) {
+                deleteNews();
+                return true;
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.edit_access_denied), Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -191,8 +192,53 @@ public class NewsActivity extends AppCompatActivity {
                 Map<String, String> addCommentMap = new HashMap<>();
                 addCommentMap.put("title", title);
                 addCommentMap.put("content", content);
-                addCommentMap.put("news",clickededNews.getId());
+                addCommentMap.put("news", clickededNews.getId());
                 addComment(addCommentMap);
+            }
+        });
+    }
+
+    private void showUpdateNewsDialog() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View mView = getLayoutInflater().inflate(R.layout.dialog_add, null);
+
+        TextView textViewTitle = (TextView) mView.findViewById(R.id.add_welcome_title);
+        final EditText editTextTitle = (EditText) mView.findViewById(R.id.add_title);
+        final EditText editTextContent = (EditText) mView.findViewById(R.id.add_content);
+        Button buttonSave = (Button) mView.findViewById(R.id.module_button_save);
+
+        //change welcome title
+        textViewTitle.setText(R.string.welcome_update_news);
+        editTextTitle.setText(clickededNews.getTitle());
+        editTextContent.setText(clickededNews.getContent());
+        buttonSave.setText(getString(R.string.update));
+
+        builder.setView(mView);
+        dialog = builder.create();
+        dialog.show();
+
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String title = editTextTitle.getText().toString();
+                String content = editTextContent.getText().toString();
+
+                if (title.isEmpty()) {
+                    editTextTitle.setError(getString(R.string.empty_field));
+                    return;
+                }
+
+                if (content.isEmpty()) {
+                    editTextContent.setError(getString(R.string.empty_field));
+                    return;
+                }
+
+                Map<String, String> addNewsMap = new HashMap<>();
+                addNewsMap.put("title", title);
+                addNewsMap.put("content", content);
+                updateNews(addNewsMap);
             }
         });
     }
@@ -227,7 +273,7 @@ public class NewsActivity extends AppCompatActivity {
 
         if (token != null) {
 
-            RetrofitService.getInstance().deleteNews(token, clickededNews.getId(), new IServiceResultListener<String>() {
+            IServiceProvider.getService(this).deleteNews(token, clickededNews.getId(), new IServiceResultListener<String>() {
                 @Override
                 public void onResult(ServiceResult<String> result) {
 
@@ -235,7 +281,31 @@ public class NewsActivity extends AppCompatActivity {
 
                     if (response != null) {
                         Toast.makeText(getBaseContext(), response, Toast.LENGTH_SHORT).show();
-                        //refreshNewsList();
+                        finish();
+                    } else {
+                        Toast.makeText(getBaseContext(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private void updateNews(Map<String,String> updateMap) {
+
+        String token = Const.getToken();
+
+        if (token != null) {
+
+            IServiceProvider.getService(this).updateNews(token, clickededNews.getId(), updateMap, new IServiceResultListener<String>() {
+                @Override
+                public void onResult(ServiceResult<String> result) {
+
+                    String response = result.getData();
+
+                    if (response != null) {
+                        Toast.makeText(getBaseContext(), response, Toast.LENGTH_SHORT).show();
+                        // TODO: 19/07/2017 add refreshNewsPage
+                        finish();
                     } else {
                         Toast.makeText(getBaseContext(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
                     }

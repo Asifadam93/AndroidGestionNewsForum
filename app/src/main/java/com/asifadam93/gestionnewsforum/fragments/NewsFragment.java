@@ -66,9 +66,13 @@ public class NewsFragment extends Fragment {
             }
         });
 
-        getNewsList();
-
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNewsList();
     }
 
     private void getNewsList() {
@@ -100,7 +104,7 @@ public class NewsFragment extends Fragment {
                                 @Override
                                 public void onSuccess() {
                                     Log.i("Realm", "It's working");
-                                    Toast.makeText(getActivity(), "URL enregistrée", Toast.LENGTH_LONG).show();
+                                   // Toast.makeText(getActivity(), "URL enregistrée", Toast.LENGTH_LONG).show();
 
                                 }
                             }, new Realm.Transaction.OnError() {

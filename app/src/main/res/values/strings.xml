@@ -42,7 +42,7 @@
     <string name="news_update_error">News update error</string>
     <string name="news_deleted">News deleted !</string>
     <string name="error_delete_news">Error : News delete</string>
-    <string name="update_access_denied">Access denied to update</string>
+    <string name="edit_access_denied">Access denied to edit</string>
     <string name="delete_access_denied">Access denied to delete</string>
     <string name="internet_not_available">Internet not available, try again later</string>
     <string name="title_activity_news">NewsActivity</string>
@@ -139,4 +139,5 @@
     <string name="add_comment">Add a comment</string>
     <string name="title_activity_topic">TopicActivity</string>
     <string name="error_data">Error retrieving news data</string>
+    <string name="welcome_update_news">Update news</string>
 </resources>
