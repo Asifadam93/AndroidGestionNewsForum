@@ -83,8 +83,6 @@ public class NewsActivity extends AppCompatActivity {
         fabAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Snackbar.make(view, "Asif à toi de jouer :)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
                 showAddCommentDialog();
             }
         });

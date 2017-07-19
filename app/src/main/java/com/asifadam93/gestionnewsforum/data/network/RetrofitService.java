@@ -1,8 +1,12 @@
 package com.asifadam93.gestionnewsforum.data.network;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.data.IService;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
+import com.asifadam93.gestionnewsforum.data.local.RealmService;
 import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.News;
@@ -14,6 +18,7 @@ import com.asifadam93.gestionnewsforum.model.User;
 import java.util.List;
 import java.util.Map;
 
+import io.realm.Realm;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,6 +32,8 @@ public class RetrofitService implements IService {
 
     private IRetrofitService service;
     private static RetrofitService retrofitService;
+
+    final Realm realm = Realm.getDefaultInstance();
 
     public static RetrofitService getInstance() {
         if (retrofitService == null) {
@@ -215,7 +222,7 @@ public class RetrofitService implements IService {
             @Override
             public void onResponse(Call<List<News>> call, Response<List<News>> response) {
 
-                ServiceResult<List<News>> serviceResult = new ServiceResult<List<News>>();
+                final ServiceResult<List<News>> serviceResult = new ServiceResult<List<News>>();
 
                 if (response.isSuccessful()) {
                     serviceResult.setData(response.body());
@@ -224,6 +231,30 @@ public class RetrofitService implements IService {
                 }
 
                 if (result != null) {
+                    //sauvegarde des news récupées en Async (pour ne pas ralentir l'UI)
+                    realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            for (News news : serviceResult.getData()) {
+                                Log.i("AJOUT N", news.toString());
+                                realm.copyToRealmOrUpdate(news);
+                            }
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
+
+                        @Override
+                        public void onSuccess() {
+                            Log.i("getNewsList", "Enregistrement des news : OK");
+
+                        }
+                    }, new Realm.Transaction.OnError() {
+
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.e("getNewsList", "Enregistrement des news : KO");
+                        }
+                    });
+
                     result.onResult(serviceResult);
                 }
 
