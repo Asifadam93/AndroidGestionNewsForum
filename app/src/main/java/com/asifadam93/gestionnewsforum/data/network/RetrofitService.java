@@ -471,7 +471,7 @@ public class RetrofitService implements IService {
             @Override
             public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
 
-                ServiceResult<List<Topic>> serviceResult = new ServiceResult<List<Topic>>();
+                final ServiceResult<List<Topic>> serviceResult = new ServiceResult<List<Topic>>();
 
                 if (response.isSuccessful()) {
                     serviceResult.setData(response.body());
@@ -480,6 +480,30 @@ public class RetrofitService implements IService {
                 }
 
                 if (result != null) {
+                    //sauvegarde des news récupées en Async (pour ne pas ralentir l'UI)
+                    realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            for (Topic topic : serviceResult.getData()) {
+                                Log.i("AJOUT T", topic.toString());
+                                realm.copyToRealmOrUpdate(topic);
+                            }
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
+
+                        @Override
+                        public void onSuccess() {
+                            Log.i("getTopicList", "Enregistrement des news : OK");
+
+                        }
+                    }, new Realm.Transaction.OnError() {
+
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.e("getTopicList", "Enregistrement des news : OK");
+                        }
+                    });
+
                     result.onResult(serviceResult);
                 }
 
