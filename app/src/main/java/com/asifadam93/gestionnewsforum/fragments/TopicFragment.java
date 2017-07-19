@@ -62,47 +62,10 @@ public class TopicFragment extends Fragment
 
                         final List<Topic> topicsList = result.getData();
 
-                        if (Const.isInternetAvailable(getContext())) {
-                            if (topicsList != null) {
-
-                                //sauvegarde des news récupées en Async (pour ne pas ralentir l'UI)
-                                realm.executeTransactionAsync(new Realm.Transaction() {
-                                    @Override
-                                    public void execute(Realm realm) {
-                                        for (Topic topic : topicsList) {
-                                            Log.i("AJOUT T", topic.toString());
-                                            realm.copyToRealmOrUpdate(topic);
-                                        }
-                                    }
-                                }, new Realm.Transaction.OnSuccess() {
-
-                                    @Override
-                                    public void onSuccess() {
-                                        Log.i("Realm", "It's working");
-                                        Toast.makeText(getActivity(), "URL enregistrée", Toast.LENGTH_LONG).show();
-
-                                    }
-                                }, new Realm.Transaction.OnError() {
-
-                                    @Override
-                                    public void onError(Throwable error) {
-                                        Log.e("Realm", "It's a bug");
-                                        Toast.makeText(getActivity(), "Erreur lors de l'enregitrement", Toast.LENGTH_LONG).show();
-
-                                    }
-                                });
-
-
-                                setTopics(topicsList);
-                            } else {
-                                Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                            }
+                        if (topicsList != null) {
+                            setTopics(topicsList);
                         } else {
-                            if (topicsList != null) {
-                                setTopics(topicsList);
-                            } else {
-                                Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
