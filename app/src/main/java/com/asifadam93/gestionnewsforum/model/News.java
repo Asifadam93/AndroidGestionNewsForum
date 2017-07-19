@@ -1,5 +1,8 @@
 package com.asifadam93.gestionnewsforum.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
@@ -9,7 +12,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Asifadam93 on 15/07/2017.
  */
 
-public class News extends RealmObject
+public class News extends RealmObject implements Parcelable
 {
     @SerializedName("_id")
     @PrimaryKey
@@ -20,11 +23,38 @@ public class News extends RealmObject
     private String content;
     private String date;
 
+    protected News(Parcel in) {
+        id = in.readString();
+        author = in.readString();
+        title = in.readString();
+        content = in.readString();
+        date = in.readString();
+    }
+
+    public News(String author, String title, String content) {
+        this.author = author;
+        this.title = title;
+        this.content = content;
+    }
+
+    public News() {
+    }
+
+    public static final Creator<News> CREATOR = new Creator<News>() {
+        @Override
+        public News createFromParcel(Parcel in) {
+            return new News(in);
+        }
+
+        @Override
+        public News[] newArray(int size) {
+            return new News[size];
+        }
+    };
+
     public String getId() {
         return id;
     }
-
-
 
     public String getAuthor() {
         return author;
@@ -41,15 +71,6 @@ public class News extends RealmObject
         return date;
     }
 
-    public News(String author, String title, String content) {
-        this.author = author;
-        this.title = title;
-        this.content = content;
-    }
-
-    public News() {
-    }
-
 
     //TODO récupérer la date ! ! !
 
@@ -62,5 +83,19 @@ public class News extends RealmObject
                 ", content='" + content + '\'' +
                 ", date='" + date + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(author);
+        parcel.writeString(title);
+        parcel.writeString(content);
+        parcel.writeString(date);
     }
 }

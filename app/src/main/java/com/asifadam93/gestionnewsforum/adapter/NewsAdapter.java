@@ -76,6 +76,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             super(itemView);
             textViewTitle = (TextView) itemView.findViewById(R.id.rv_text_view);
             textViewDesc = (TextView) itemView.findViewById(R.id.rv_tv_desc);
+
             linearLayout = (LinearLayout) itemView.findViewById(R.id.row_linear_layout);
             linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,16 +90,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
 
             Intent intent = new Intent(context, NewsActivity.class);
-
-
-            News clickedNews = newsList.get(getAdapterPosition());
-
-
-            intent.putExtra(NewsActivity.NEWS_CONTENT, clickedNews.getContent());
-            intent.putExtra(NewsActivity.NEWS_TITLE, clickedNews.getTitle());
-            intent.putExtra(NewsActivity.NEWS_ID, clickedNews.getId());
-
+            intent.putExtra(NewsActivity.NEWS_CONTENT,newsList.get(getAdapterPosition())); // Parcelable
             context.startActivity(intent);
+            /*intent.putExtra(NewsActivity.NEWS_CONTENT, clickedNews.getContent());
+            intent.putExtra(NewsActivity.NEWS_TITLE, clickedNews.getTitle());
+            intent.putExtra(NewsActivity.NEWS_ID, clickedNews.getId());*/
 
         }
 

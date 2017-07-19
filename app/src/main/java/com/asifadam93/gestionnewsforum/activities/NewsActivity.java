@@ -2,9 +2,9 @@ package com.asifadam93.gestionnewsforum.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,8 +23,8 @@ import com.asifadam93.gestionnewsforum.adapter.CommentAdapter;
 import com.asifadam93.gestionnewsforum.data.IServiceProvider;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
-import com.asifadam93.gestionnewsforum.model.Auth;
 import com.asifadam93.gestionnewsforum.model.Comment;
+import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.util.Const;
 
@@ -32,9 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class NewsActivity extends AppCompatActivity {
     private CommentAdapter commentAdapter;
@@ -45,17 +42,24 @@ public class NewsActivity extends AppCompatActivity {
     public static String NEWS_ID = "news_id";
 
     private Dialog dialog;
-    private String newsId;
+    private News clickededNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String title = getIntent().getStringExtra(NEWS_TITLE);
+        /*String title = getIntent().getStringExtra(NEWS_TITLE);
         String content = getIntent().getStringExtra(NEWS_CONTENT);
-        newsId = getIntent().getStringExtra(NEWS_ID);
+        newsId = getIntent().getStringExtra(NEWS_ID);*/
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
+
+        clickededNews = getIntent().getParcelableExtra(NEWS_CONTENT);
+
+        if(clickededNews == null){
+            finish();
+            Toast.makeText(this, R.string.error_data,Toast.LENGTH_SHORT).show();
+        }
 
         TextView newsTextView = (TextView) findViewById(R.id.news_content);
         FloatingActionButton fabAddComment = (FloatingActionButton) findViewById(R.id.add_comment);
@@ -63,8 +67,8 @@ public class NewsActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle(title);
-        newsTextView.setText(content);
+        getSupportActionBar().setTitle(clickededNews.getTitle());
+        newsTextView.setText(clickededNews.getContent());
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.comments);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -101,13 +105,15 @@ public class NewsActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_modifier) {
 
-            //todo
+            if(Const.hasPermissionToEdit(clickededNews.getAuthor()))
 
             return true;
         }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_supprimer) {
+
+
 
             return true;
         }
@@ -122,7 +128,7 @@ public class NewsActivity extends AppCompatActivity {
 
         if (token != null) {
 
-            String url = "/comments?criteria={\"offset\":0,\"where\":{\"news\":\"" + newsId + "\"}}";
+            String url = "/comments?criteria={\"offset\":0,\"where\":{\"news\":\"" + clickededNews.getId() + "\"}}";
 
             Log.i("NewsAdapter", "Url : " + url);
 
@@ -185,7 +191,7 @@ public class NewsActivity extends AppCompatActivity {
                 Map<String, String> addCommentMap = new HashMap<>();
                 addCommentMap.put("title", title);
                 addCommentMap.put("content", content);
-                addCommentMap.put("news",newsId);
+                addCommentMap.put("news",clickededNews.getId());
                 addComment(addCommentMap);
             }
         });
@@ -221,7 +227,7 @@ public class NewsActivity extends AppCompatActivity {
 
         if (token != null) {
 
-            RetrofitService.getInstance().deleteNews(token, newsId, new IServiceResultListener<String>() {
+            RetrofitService.getInstance().deleteNews(token, clickededNews.getId(), new IServiceResultListener<String>() {
                 @Override
                 public void onResult(ServiceResult<String> result) {
 
