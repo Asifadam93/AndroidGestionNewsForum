@@ -5,11 +5,11 @@
     <item
         android:id="@+id/action_supprimer"
         android:orderInCategory="100"
-        android:title="Supprimer"
+        android:title="Delete"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_modifier"
         android:orderInCategory="200"
-        android:title="Modifier"
+        android:title="Edit"
         app:showAsAction="never" />
 </menu>
