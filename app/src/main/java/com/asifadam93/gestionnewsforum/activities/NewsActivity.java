@@ -46,10 +46,6 @@ public class NewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        /*String title = getIntent().getStringExtra(NEWS_TITLE);
-        String content = getIntent().getStringExtra(NEWS_CONTENT);
-        newsId = getIntent().getStringExtra(NEWS_ID);*/
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
@@ -74,10 +70,7 @@ public class NewsActivity extends AppCompatActivity {
         commentAdapter = new CommentAdapter(this, commentList);
         recyclerView.setAdapter(commentAdapter);
 
-        getComments();
-
         Log.i("NewsActivity", "create");
-
 
         fabAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +81,13 @@ public class NewsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("NewsActivity", "onResume");
+        getComments();
     }
 
     @Override
@@ -154,6 +154,8 @@ public class NewsActivity extends AppCompatActivity {
             });
         }
     }
+
+
 
     private void showAddCommentDialog() {
 

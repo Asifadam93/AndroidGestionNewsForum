@@ -81,7 +81,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
             Intent intent = new Intent(context, NewsActivity.class);
             intent.putExtra(NewsActivity.NEWS_CONTENT, newsList.get(getAdapterPosition())); // Parcelable
             context.startActivity(intent);
-            /*intent.putExtra(NewsActivity.NEWS_CONTENT, clickedNews.getContent());
+            /*intent.putExtra(NewsActivity.COMMENT_CONTENT, clickedNews.getContent());
             intent.putExtra(NewsActivity.NEWS_TITLE, clickedNews.getTitle());
             intent.putExtra(NewsActivity.NEWS_ID, clickedNews.getId());*/
 

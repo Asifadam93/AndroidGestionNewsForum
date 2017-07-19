@@ -140,4 +140,5 @@
     <string name="title_activity_topic">TopicActivity</string>
     <string name="error_data">Error retrieving news data</string>
     <string name="welcome_update_news">Update news</string>
+    <string name="welcome_edit_comment">Edit comment</string>
 </resources>
