@@ -76,60 +76,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
         }
 
         private void showNewsActivity() {
-
-
             Intent intent = new Intent(context, NewsActivity.class);
             intent.putExtra(NewsActivity.NEWS_CONTENT, newsList.get(getAdapterPosition())); // Parcelable
             context.startActivity(intent);
-            /*intent.putExtra(NewsActivity.COMMENT_CONTENT, clickedNews.getContent());
-            intent.putExtra(NewsActivity.NEWS_TITLE, clickedNews.getTitle());
-            intent.putExtra(NewsActivity.NEWS_ID, clickedNews.getId());*/
 
         }
     }
 }
-
-
-       /* private void updateNews() {
-
-            String title = editTextTitle.getText().toString();
-            String content = editTextContent.getText().toString();
-
-            if (title.isEmpty()) {
-                editTextTitle.setError(context.getString(R.string.empty_field));
-                return;
-            }
-
-            if (content.isEmpty()) {
-                editTextTitle.setError(context.getString(R.string.empty_field));
-                return;
-            }
-
-            Map<String, String> updateMap = new HashMap<>();
-            updateMap.put("title", title);
-            updateMap.put("content", content);
-
-            String token = Const.getToken();
-
-            if (token != null) {
-
-                String newsId = newsList.get(getAdapterPosition()).getId();
-
-                RetrofitService.getInstance().updateNews(token, newsId, updateMap, new IServiceResultListener<String>() {
-                    @Override
-                    public void onResult(ServiceResult<String> result) {
-
-                        String response = result.getData();
-
-                        if (response != null) {
-                            Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
-                            refreshNewsList();
-                        } else {
-                            Toast.makeText(context, result.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        }
-    }
-}*/

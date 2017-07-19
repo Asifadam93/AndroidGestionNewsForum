@@ -8,22 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
 import com.asifadam93.gestionnewsforum.activities.TopicActivity;
-import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.model.Comment;
 import com.asifadam93.gestionnewsforum.model.Topic;
-import com.asifadam93.gestionnewsforum.model.ServiceResult;
-import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
-import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Asifadam93 on 15/07/2017.
@@ -59,41 +53,34 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.MyViewHoled>
         return topicList.size();
     }
 
-    class MyViewHoled extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MyViewHoled extends RecyclerView.ViewHolder {
 
         private TextView textViewTitle, textViewDesc;
-        private EditText editTextTitle, editTextContent;
-        private AlertDialog dialog;
-        List<Comment> commentList = new ArrayList<>();
-        //CommentAdapter commentAdapter;
 
         MyViewHoled(View itemView) {
             super(itemView);
             textViewTitle = (TextView) itemView.findViewById(R.id.rv_text_view);
             textViewDesc = (TextView) itemView.findViewById(R.id.rv_tv_desc);
-            textViewTitle.setOnClickListener(this);
-            textViewDesc.setOnClickListener(this);
+
+            LinearLayout linearLayout = (LinearLayout) itemView.findViewById(R.id.row_linear_layout);
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showTopicActivity();
+                }
+            });
         }
 
         private void showTopicActivity() {
 
-
             Intent intent = new Intent(context, TopicActivity.class);
-
-
-            Topic clickedTopic = topicList.get(getAdapterPosition());
-
-
-            intent.putExtra(TopicActivity.TOPIC_CONTENT, clickedTopic.getContent());
-            intent.putExtra(TopicActivity.TOPIC_TITLE, clickedTopic.getTitle());
-            intent.putExtra(TopicActivity.TOPIC_ID, clickedTopic.getId());
-
+            intent.putExtra(TopicActivity.TOPIC_CONTENT, topicList.get(getAdapterPosition())); // Parcelable
             context.startActivity(intent);
 
         }
 
 
-        @Override
+        /*@Override
         public void onClick(View view) {
             showTopicActivity();
         }
@@ -190,6 +177,6 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.MyViewHoled>
                     }
                 });
             }
-        }
+        }*/
     }
 }

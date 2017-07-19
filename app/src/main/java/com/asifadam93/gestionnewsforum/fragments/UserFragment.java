@@ -13,13 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
-import com.asifadam93.gestionnewsforum.data.IServiceProvider;
-import com.asifadam93.gestionnewsforum.util.Const;
 import com.asifadam93.gestionnewsforum.activities.SingInActivity;
-import com.asifadam93.gestionnewsforum.model.User;
+import com.asifadam93.gestionnewsforum.data.IServiceProvider;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
+import com.asifadam93.gestionnewsforum.model.User;
+import com.asifadam93.gestionnewsforum.util.Const;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +75,7 @@ public class UserFragment extends Fragment {
         });
     }
 
-    private void signOutUser(){
+    private void signOutUser() {
 
         Const.deleteAuth(); // delete auth token
 
@@ -100,38 +100,28 @@ public class UserFragment extends Fragment {
             return;
         }
 
-        Map<String,String> updateMap = new HashMap<>();
-        updateMap.put("lastname",lastName);
-        updateMap.put("firstname",firstName);
-        updateMap.put("email",email);
-
-        RetrofitService.getInstance().updateUser(getToken(), updateMap, new IServiceResultListener<String>() {
-            @Override
-            public void onResult(ServiceResult<String> result) {
-
-                if(result != null){
-                    Toast.makeText(getActivity(),firstName+" profile updated",Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(),result.getErrorMsg(),Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
-    }
-
-    private String getToken() {
-
         String token = Const.getToken();
 
         if (token != null) {
-            return token;
-        }
 
-        // token == null
-        Toast.makeText(getActivity(), R.string.token_error, Toast.LENGTH_SHORT).show();
-        getActivity().finish();
-        return null;
+            Map<String, String> updateMap = new HashMap<>();
+            updateMap.put("lastname", lastName);
+            updateMap.put("firstname", firstName);
+            updateMap.put("email", email);
+
+            IServiceProvider.getService(getContext()).updateUser(token, updateMap, new IServiceResultListener<String>() {
+                @Override
+                public void onResult(ServiceResult<String> result) {
+
+                    if (result != null) {
+                        Toast.makeText(getActivity(),firstName + " profile updated", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+        }
     }
 
     private void getUserData() {

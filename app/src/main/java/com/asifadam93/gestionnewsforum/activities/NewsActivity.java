@@ -37,8 +37,6 @@ public class NewsActivity extends AppCompatActivity {
     private List<Comment> commentList = new ArrayList<>();
 
     public static String NEWS_CONTENT = "news_content";
-    public static String NEWS_TITLE = "news_title";
-    public static String NEWS_ID = "news_id";
 
     private Dialog dialog;
     private News clickededNews;
