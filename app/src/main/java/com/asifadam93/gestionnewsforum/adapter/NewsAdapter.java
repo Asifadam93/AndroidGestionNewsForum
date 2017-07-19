@@ -64,20 +64,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
         return newsList.size();
     }
 
-    class MyViewHoled extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MyViewHoled extends RecyclerView.ViewHolder {
 
         private TextView textViewTitle, textViewDesc;
         private EditText editTextTitle, editTextContent;
         private AlertDialog dialog;
         List<Comment> commentList = new ArrayList<>();
-        //CommentAdapter commentAdapter;
+        LinearLayout linearLayout;
 
         MyViewHoled(View itemView) {
             super(itemView);
             textViewTitle = (TextView) itemView.findViewById(R.id.rv_text_view);
             textViewDesc = (TextView) itemView.findViewById(R.id.rv_tv_desc);
-            textViewTitle.setOnClickListener(this);
-            textViewDesc.setOnClickListener(this);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.row_linear_layout);
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showNewsActivity();
+                }
+            });
         }
 
         private void showNewsActivity() {
@@ -98,12 +103,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
         }
 
 
-        @Override
-        public void onClick(View view) {
-            showNewsActivity();
-        }
-
-        private void updateNews() {
+       /* private void updateNews() {
 
             String title = editTextTitle.getText().toString();
             String content = editTextContent.getText().toString();
@@ -195,6 +195,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
                     }
                 });
             }
-        }
+        }*/
     }
 }
