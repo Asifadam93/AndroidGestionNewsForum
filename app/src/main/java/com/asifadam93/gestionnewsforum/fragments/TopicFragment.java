@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asifadam93.gestionnewsforum.R;
-import com.asifadam93.gestionnewsforum.activities.MainActivity;
 import com.asifadam93.gestionnewsforum.adapter.TopicAdapter;
 import com.asifadam93.gestionnewsforum.data.IServiceProvider;
 import com.asifadam93.gestionnewsforum.data.IServiceResultListener;
 import com.asifadam93.gestionnewsforum.data.network.RetrofitService;
-import com.asifadam93.gestionnewsforum.model.News;
 import com.asifadam93.gestionnewsforum.model.ServiceResult;
 import com.asifadam93.gestionnewsforum.model.Topic;
 import com.asifadam93.gestionnewsforum.util.Const;
@@ -44,8 +41,8 @@ public class TopicFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private Dialog dialog;
-    public TopicAdapter topicAdapter;
-    public List<Topic> topicList= new ArrayList<>();
+    TopicAdapter topicAdapter;
+    List<Topic> topicList;
 
     @Nullable
     @Override
@@ -53,6 +50,7 @@ public class TopicFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
 
+        topicList = new ArrayList<>();
         topicAdapter = new TopicAdapter(getActivity(), topicList);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.news_recycler_view);
@@ -177,25 +175,10 @@ public class TopicFragment extends Fragment {
 
     }
 
-    public void setTopics(List<Topic> topicListTmp) {
+    private void setTopics(List<Topic> topicListTmp) {
         topicList.clear();
         topicList.addAll(topicListTmp);
-
-        updateAdapter();
-    }
-
-    public void updateAdapter() {
-        if (!MainActivity.utilisateurs.isEmpty()) {
-
-            for (Topic topic : topicAdapter.topicList ) {
-                Log.i("News User ", MainActivity.utilisateurs.get(topic.getAuthor()).toString());
-                topic.setRealUser(MainActivity.utilisateurs.get(topic.getAuthor()));
-            }
-
-        }
         topicAdapter.notifyDataSetChanged();
     }
-
-
 
 }

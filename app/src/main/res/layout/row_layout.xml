@@ -47,13 +47,13 @@
             android:layout_marginTop="4dp"
             android:background="#EEEEEE" />
 
-        <TextView
-            android:id="@+id/item_info"
+        <!--TextView
+            android:id="@+id/item_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="05/08/1983"
             android:textAlignment="textEnd"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" /-->
 
 
 
