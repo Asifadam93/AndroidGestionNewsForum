@@ -27,7 +27,7 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
-    public List<News> newsList;
+    private List<News> newsList;
     private LayoutInflater layoutInflater;
     private Context context;
 
@@ -46,10 +46,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
     @Override
     public void onBindViewHolder(MyViewHoled holder, int position) {
 
-        String tempoUser = newsList.get(position).getRealUser().getFirstName() + " " + newsList.get(position).getRealUser().getLastName().toUpperCase();
         holder.textViewTitle.setText(newsList.get(position).getTitle());
         holder.textViewDesc.setText(newsList.get(position).getContent());
-        holder.textItemInfo.setText(tempoUser);
     }
 
     @Override
@@ -59,16 +57,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHoled> {
 
     class MyViewHoled extends RecyclerView.ViewHolder {
 
-        private TextView textViewTitle, textViewDesc, textItemInfo;
-
+        private TextView textViewTitle, textViewDesc;
+        private EditText editTextTitle, editTextContent;
+        private AlertDialog dialog;
+        List<Comment> commentList = new ArrayList<>();
         LinearLayout linearLayout;
 
         MyViewHoled(View itemView) {
             super(itemView);
             textViewTitle = (TextView) itemView.findViewById(R.id.rv_text_view);
             textViewDesc = (TextView) itemView.findViewById(R.id.rv_tv_desc);
-            textItemInfo = (TextView) itemView.findViewById(R.id.item_info);
-
 
             linearLayout = (LinearLayout) itemView.findViewById(R.id.row_linear_layout);
             linearLayout.setOnClickListener(new View.OnClickListener() {

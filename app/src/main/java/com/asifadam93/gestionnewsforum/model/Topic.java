@@ -21,7 +21,6 @@ public class Topic extends RealmObject implements Parcelable {
     private String title;
     private String content;
     private String date;
-    private User realUser;
 
     public Topic() {
     }
@@ -64,14 +63,6 @@ public class Topic extends RealmObject implements Parcelable {
 
     public String getDate() {
         return date;
-    }
-
-    public User getRealUser() {
-        return realUser;
-    }
-
-    public void setRealUser(User realUser) {
-        this.realUser = realUser;
     }
 
     @Override
